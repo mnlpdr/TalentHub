@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Aluno</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Cadastro de Aluno</h2>
+    <form th:action="@{/alunos}" th:object="${aluno}" method="post">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Digite seu nome">
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Digite um nome de usuário" required>
+        </div>
+        <div class="form-group">
+            <label for="senha">Senha</label>
+            <input type="password" class="form-control" id="senha" th:field="*{senha}" placeholder="Digite sua senha" required>
+        </div>
+        <div class="form-group">
+            <label for="habilidades">Habilidades</label>
+            <input type="text" class="form-control" id="habilidades" th:field="*{habilidades}" placeholder="Liste suas habilidades separadas por vírgula">
+        </div>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+</div>
+</body>
+</html>
