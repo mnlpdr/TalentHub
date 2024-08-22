@@ -43,7 +43,7 @@ public class AlunoController {
     @GetMapping("/cadastro")
     public String showCadastroForm(Model model) {
         model.addAttribute("aluno", new Aluno());
-        return "cadastroAluno";  // Nome do template Thymeleaf
+        return "aluno/cadastroAluno";  // Nome do template Thymeleaf
     }
 
     // Método para processar o formulário de cadastro de aluno (Thymeleaf)

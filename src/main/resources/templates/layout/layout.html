@@ -1,0 +1,34 @@
+<!doctype html5>
+<html lang="pt_BR" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta th:insert="~{/fragments/base :: headfiles(${titulo}, ~{::link})}">
+    <link rel="stylesheet" href="">
+    </meta>
+</head>
+
+<body>
+    <div th:replace="~{/fragments/base :: header}" />
+
+    <div th:replace="~{/fragments/base :: navmenu}" />
+
+    <div class="container">
+        <div th:text="${mensagem}" th:if="${mensagem ne null}" class="alert alert-success"></div>
+
+        <div class="card">
+            <div class="card-header">
+                <span th:text="${titulo}">Título do card</span>
+            </div>
+            <div class="card-body">
+
+                <div layout:fragment="content">
+                    <!-- Corpo da página entra aqui -->
+                    <h1>Conteúdo não definido para o layout!</h1>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

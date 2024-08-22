@@ -51,7 +51,7 @@ public class EmpresaController {
     @GetMapping("/cadastro")
     public String showCadastroForm(Model model) {
         model.addAttribute("empresa", new Empresa());
-        return "cadastroEmpresa";
+        return "empresa/cadastroEmpresa";
     }
 
     @PostMapping("/cadastro")
