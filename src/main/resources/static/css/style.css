@@ -1,0 +1,14 @@
+.logo-bar {
+    background-color: #47bcff;
+
+}
+
+.logo-bar img {
+    vertical-align: sub;
+    margin-right: 5px;
+}
+
+.logo-font {
+    font-family: 'Fugaz One', cursive;
+    font-size: 2.3rem;
+}
