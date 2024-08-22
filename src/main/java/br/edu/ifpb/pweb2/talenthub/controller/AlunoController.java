@@ -8,8 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -27,10 +25,10 @@ public class AlunoController {
         return alunoService.listarTodos();
     }
 
-    // Método para criar um novo aluno (API REST)
-    @PostMapping
+    // Método para criar um novo aluno via API REST (espera JSON)
+    @PostMapping("/api")
     @ResponseBody
-    public Aluno criar(@RequestBody Aluno aluno){
+    public Aluno criarViaApi(@RequestBody Aluno aluno){
         return alunoService.salvar(aluno);
     }
 

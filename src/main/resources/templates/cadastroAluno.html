@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <h2>Cadastro de Aluno</h2>
-    <form th:action="@{/alunos}" th:object="${aluno}" method="post">
+    <form th:action="@{/alunos/cadastro}" th:object="${aluno}" method="post">
         <div class="form-group">
             <label for="nome">Nome</label>
             <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Digite seu nome">
