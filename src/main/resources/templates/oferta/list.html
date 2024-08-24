@@ -1,0 +1,33 @@
+<div class="container">
+    <h1>Ofertas de Estágio</h1>
+    <hr>
+    <form th:action="@{/ofertas/form}" method="get">
+        <button class="btn btn-primary" type="submit">Nova Oferta</button>
+    </form>
+    <br>
+    <div th:text="${mensagem}" style="color: red"></div>
+    <div class="row">
+        <div class="col-md-4" th:each="oferta : ${ofertas}">
+            <div class="card mb-4" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${oferta.atividadePrincipal}">Atividade Principal</h5>
+                    <p class="card-text"><strong>Carga Horária Semanal: </strong><span th:text="${oferta.cargaHorariaSemanal}"></span> horas</p>
+                    <p class="card-text"><strong>Valor: </strong>R$ <span th:text="${oferta.valor}"></span></p>
+                    <p class="card-text"><strong>Vale Transporte: </strong><span th:text="${oferta.valeTransporte ? 'Sim' : 'Não'}"></span></p>
+                    <p class="card-text"><strong>Pré-requisitos: </strong><span th:text="${oferta.preRequisitos}"></span></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:each="habilidade : ${oferta.habilidadesNecessarias}">
+                        <strong>Habilidade Necessária: </strong><span th:text="${habilidade}"></span>
+                    </li>
+                    <li class="list-group-item" th:each="habilidade : ${oferta.habilidadesDesejaveis}">
+                        <strong>Habilidade Desejável: </strong><span th:text="${habilidade}"></span>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a th:href="@{/ofertas/{id}(id=${oferta.id})}" class="card-link">Ver detalhes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
