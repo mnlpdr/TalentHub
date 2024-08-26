@@ -1,11 +1,7 @@
 <div class="container">
     <h1>Ofertas de Estágio</h1>
     <hr>
-    <form th:action="@{/ofertas/form}" method="get">
-        <button class="btn btn-primary" type="submit">Nova Oferta</button>
-    </form>
     <br>
-    <div th:text="${mensagem}" style="color: red"></div>
     <div class="row">
         <div class="col-md-4" th:each="oferta : ${ofertas}">
             <div class="card mb-4" style="width: 100%;">
