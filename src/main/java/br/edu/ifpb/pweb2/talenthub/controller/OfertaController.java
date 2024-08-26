@@ -38,10 +38,11 @@ public class OfertaController {
         return ofertaService.buscarPorId(id);
     }
     @GetMapping("/listar")
-    public String listarOfertas(Model model) {
+    public ModelAndView listarOfertas(ModelAndView model) {
         List<Oferta> ofertas = ofertaService.listarTodos();
-        model.addAttribute("ofertas", ofertas);
-        return "oferta/listarOferta";
+        model.addObject("ofertas", ofertas);
+        model.setViewName("oferta/listarOferta");
+        return model;
     }
 
     @RequestMapping("/{id}/delete")
@@ -66,7 +67,7 @@ public class OfertaController {
             return "oferta/criarOferta";
         }
         ofertaService.salvar(oferta);
-        return "redirect:/ofertas/cadastro?success";
+        return "redirect:/ofertas/listar";
         }
 
     }
