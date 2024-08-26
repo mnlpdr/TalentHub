@@ -10,7 +10,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfig {
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -23,9 +25,12 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests.anyRequest().permitAll() // Permite acesso a todas as rotas sem autenticação
                 )
-                .csrf(csrf -> csrf.disable()) // Desabilita CSRF (opcional)
+                .csrf(csrf -> csrf.disable())// Desabilita CSRF (opcional)
                 .formLogin(formLogin -> formLogin.disable()); // Desabilita a página de login padrão
 
         return http.build();
+
     }
+
+
 }

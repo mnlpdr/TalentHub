@@ -2,12 +2,19 @@ package br.edu.ifpb.pweb2.talenthub.controller;
 
 import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/ofertas")
 public class OfertaController {
 
@@ -18,6 +25,7 @@ public class OfertaController {
     @GetMapping
     public List<Oferta> listarTodos(){
         return ofertaService.listarTodos();
+
     }
 
     @PostMapping
@@ -29,9 +37,37 @@ public class OfertaController {
     public Oferta buscarPorId(@PathVariable Long id){
         return ofertaService.buscarPorId(id);
     }
-
-    @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id){
-        ofertaService.deletar(id);
+    @GetMapping("/listar")
+    public String listarOfertas(Model model) {
+        List<Oferta> ofertas = ofertaService.listarTodos();
+        model.addAttribute("ofertas", ofertas);
+        return "oferta/listarOferta";
     }
-}
+
+    @RequestMapping("/{id}/delete")
+    public ModelAndView deletar(@PathVariable Long id, ModelAndView model, RedirectAttributes redirectAttributes) {
+        ofertaService.deletar(id);
+        model.addObject("ofertas", ofertaService.listarTodos());
+        model.addObject("oferta", new Oferta());
+        model.setViewName("redirect:/ofertas/listar");
+        redirectAttributes.addFlashAttribute("oferta", "Deletado.");
+        return model;
+    }
+
+    @GetMapping("/cadastro")
+    public ModelAndView showOfertaForm(ModelAndView model){
+        model.setViewName("oferta/criarOferta");
+        model.addObject("oferta", new Oferta());
+        return model;
+    }
+    @PostMapping("/cadastro")
+    public String cadastrarOferta(@Valid @ModelAttribute Oferta oferta, BindingResult result, Model model){
+        if (result.hasErrors()) {
+            return "oferta/criarOferta";
+        }
+        ofertaService.salvar(oferta);
+        return "redirect:/ofertas/cadastro?success";
+        }
+
+    }
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Home'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Cadastro de Oferta</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <h2>Cadastrar Oferta de Estágio</h2>
+    <form th:action="@{/ofertas/cadastro}" th:object="${oferta}" method="post" enctype="multipart/form-data">
+        <div th:if="${#fields.hasErrors()}" class="alert alert-danger">
+            <p th:each="err : ${#fields.allErrors()}">
+                <span th:text="${err}"></span>
+            </p>
+        </div>
+        <div th:if="${fileError}" class="alert alert-danger">
+            <span th:text="${fileError}"></span>
+        </div>
+        <div class="form-group">
+            <label for="atividade">Atividade Principal</label>
+            <input type="text" class="form-control" id="atividade" th:field="*{atividadePrincipal}" placeholder="Digite a atividade principal" required>
+        </div>
+        <div class="form-group">
+            <label for="ch">Carga horária semanal</label>
+            <input type="text" class="form-control" id="ch" th:field="*{cargaHorariaSemanal}" placeholder="Digite a Carga Horária Semanal" required>
+        </div>
+        <div class="form-group">
+            <label for="valor">Valor de bolsa</label>
+            <input type="text" class="form-control" id="valor" th:field="*{valor}" placeholder="Digite o valor da bolsa" required>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="hasValeTransporte">
+            <label class="form-check-label" for="hasValeTransporte">Haverá Vale Transporte?</label>
+        </div>
+        <div class="form-group">
+            <label for="preReq">Pré-requisitos</label>
+            <input type="text" class="form-control" id="preReq" th:field="*{preRequisitos}" placeholder="Digite os pré-requisitos" required>
+        </div>
+        <div class="form-group">
+            <label for="habilidadeNec">Habilidades Necessárias</label>
+            <input type="text" class="form-control" id="habilidadeNec" th:field="*{habilidadesNecessarias}" placeholder="Digite as habilidades necessárias" required>
+        </div>
+        <div class="form-group">
+            <label for="habilidadeDes">Habilidades Desejáveis</label>
+            <input type="text" class="form-control" id="habilidadeDes" th:field="*{habilidadesDesejaveis}" placeholder="Descreva as habilidades desejáveis">
+        </div>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+</div>
+</body>
+</html>
