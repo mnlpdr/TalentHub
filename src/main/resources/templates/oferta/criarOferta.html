@@ -28,9 +28,9 @@
             <label for="valor">Valor de bolsa</label>
             <input type="text" class="form-control" id="valor" th:field="*{valor}" placeholder="Digite o valor da bolsa" required>
         </div>
-        <div class="form-group">
-            <label for="valorValeTransporte">Valor do Vale Transporte</label>
-            <input type="text" class="form-control" id="valorValeTransporte" th:field="*{valeTransporte}" placeholder="Digite o valor do vale transporte">
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="hasValeTransporte">
+            <label class="form-check-label" for="hasValeTransporte">Haverá Vale Transporte?</label>
         </div>
         <div class="form-group">
             <label for="preReq">Pré-requisitos</label>
@@ -47,6 +47,5 @@
         <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
 </div>
-
 </body>
 </html>
