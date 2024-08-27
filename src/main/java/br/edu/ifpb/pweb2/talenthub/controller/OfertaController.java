@@ -4,7 +4,6 @@ import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,8 +22,10 @@ public class OfertaController {
     private OfertaService ofertaService;
 
     @GetMapping
-    public List<Oferta> listarTodos(){
-        return ofertaService.listarTodos();
+    public String listarTodos(Model model){
+        model.addAttribute("ofertas", ofertaService.listarTodos());
+        return "oferta/listarOferta";
+     
 
     }
 
