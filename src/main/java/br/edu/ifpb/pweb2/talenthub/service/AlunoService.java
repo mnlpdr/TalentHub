@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,6 +51,25 @@ public class AlunoService {
             alunoRepository.save(aluno);
         }
     }
+
+
+    public List<Aluno> listarTodosComCandidatura() {
+        // Recupera todos os alunos
+        List<Aluno> alunos = alunoRepository.findAll();
+        // Cria uma lista para armazenar os alunos com candidaturas
+        List<Aluno> alunosComCandidaturas = new ArrayList<>();
+
+        // Itera sobre a lista de alunos
+        for (Aluno aluno : alunos) {
+            // Verifica se o aluno possui pelo menos uma candidatura
+            if (aluno.getOfertasCandidaturas() != null && !aluno.getOfertasCandidaturas().isEmpty()) {
+                alunosComCandidaturas.add(aluno);
+            }
+        }
+
+        return alunosComCandidaturas;
+    }
+
 
 
 }
