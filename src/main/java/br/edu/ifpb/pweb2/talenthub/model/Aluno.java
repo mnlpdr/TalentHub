@@ -34,7 +34,13 @@ public class Aluno {
     @OneToMany(mappedBy = "aluno")
     private Set<Estagio> estagios;
 
-
-
+    // Propriedade ofertasCandidaturas adicionada para relação n:n com Oferta.
+    @ManyToMany
+    @JoinTable(
+            name = "aluno_oferta",
+            joinColumns = @JoinColumn(name = "aluno_id"),
+            inverseJoinColumns = @JoinColumn(name = "oferta_id")
+    )
+    private Set<Oferta> ofertasCandidaturas = new HashSet<>();
 
 }
