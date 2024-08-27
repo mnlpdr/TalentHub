@@ -1,6 +1,7 @@
 package br.edu.ifpb.pweb2.talenthub.controller;
 
 import br.edu.ifpb.pweb2.talenthub.model.Oferta;
+import br.edu.ifpb.pweb2.talenthub.service.EmpresaService;
 import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,13 @@ public class OfertaController {
 
     @Autowired
     private OfertaService ofertaService;
+    @Autowired
+    private EmpresaService empresaService;
 
     @GetMapping
     public String listarTodos(Model model){
         model.addAttribute("ofertas", ofertaService.listarTodos());
         return "oferta/listarOferta";
-     
-
     }
 
     @PostMapping
@@ -60,8 +61,10 @@ public class OfertaController {
     public ModelAndView showOfertaForm(ModelAndView model){
         model.setViewName("oferta/criarOferta");
         model.addObject("oferta", new Oferta());
+        model.addObject("empresas",empresaService.listarTodos() );
         return model;
     }
+
     @PostMapping("/cadastro")
     public String cadastrarOferta(@Valid @ModelAttribute Oferta oferta, BindingResult result, Model model){
         if (result.hasErrors()) {

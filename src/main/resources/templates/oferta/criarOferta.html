@@ -16,6 +16,16 @@
         <div th:if="${fileError}" class="alert alert-danger">
             <span th:text="${fileError}"></span>
         </div>
+        
+        <!-- Campo de seleção de Empresa -->
+        <div class="form-group">
+            <label for="empresa">Empresa</label>
+            <select class="form-control" id="empresa" th:field="*{empresa}">
+                <option value="" disabled selected>Selecione uma empresa</option>
+                <option th:each="empresa : ${empresas}" th:value="${empresa.id}" th:text="${empresa.nome}"></option>
+            </select>
+        </div>
+        
         <div class="form-group">
             <label for="atividade">Atividade Principal</label>
             <input type="text" class="form-control" id="atividade" th:field="*{atividadePrincipal}" placeholder="Digite a atividade principal" required>
@@ -29,7 +39,7 @@
             <input type="text" class="form-control" id="valor" th:field="*{valor}" placeholder="Digite o valor da bolsa" required>
         </div>
         <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="hasValeTransporte">
+            <input type="checkbox" class="form-check-input" id="hasValeTransporte" th:field="*{valeTransporte}">
             <label class="form-check-label" for="hasValeTransporte">Haverá Vale Transporte?</label>
         </div>
         <div class="form-group">

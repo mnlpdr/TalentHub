@@ -2,13 +2,16 @@
 <body>
     <div layout:fragment="content">
         <div class="container">
-            <h1>Ofertas de Estágio</h1>
-            <hr>
+            <form th:action="@{/ofertas/cadastro}" method="GET">
+                <button class="btn btn-primary" type="submit">Novo</button>
+            </form>
+            <br />
             <div class="row">
                 <div class="col-md-4" th:each="oferta : ${ofertas}">
                     <div class="card mb-4" style="width: 100%;">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${oferta.atividadePrincipal}">Atividade Principal</h5>
+                            <p class="card-text"><strong>Empresa Responsável: </strong><span th:text="${oferta.empresa.nome}"></span></p>
                             <p class="card-text"><strong>Carga Horária Semanal: </strong><span th:text="${oferta.cargaHorariaSemanal}"></span> horas</p>
                             <p class="card-text"><strong>Valor: </strong>R$ <span th:text="${oferta.valor}"></span></p>
                             <p class="card-text"><strong>Vale Transporte: </strong><span th:text="${oferta.valeTransporte != null && oferta.valeTransporte ? 'Não' : 'Sim'}"></span></p>
