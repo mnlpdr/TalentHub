@@ -1,5 +1,6 @@
 package br.edu.ifpb.pweb2.talenthub.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -28,9 +29,12 @@ public class Aluno {
 
     // Exemplo de habilidades (isso pode ser ajustado conforme a necessidade)
     @ElementCollection
-    private Set<String> habilidades;
+    private Set<String> habilidades = new HashSet<>(); // Mudança para evitar NullPointerException.
 
     @OneToMany(mappedBy = "aluno")
     private Set<Estagio> estagios;
+
+
+
 
 }
