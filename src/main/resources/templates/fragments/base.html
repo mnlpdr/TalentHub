@@ -21,12 +21,12 @@
     <nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">
         <div class="navbar-nav">
             <a th:classappend="${menu == 'home'} ? 'active'" class="nav-item nav-link" th:href="@{/home}">Home</a>
-            <a th:classappend="${menu == 'correntistas'} ? 'active'" class="nav-item nav-link" th:href="@{/alunos/cadastro}">
+            <a th:classappend="${menu == 'Alunos'} ? 'active'" class="nav-item nav-link" th:href="@{/alunos}">
                 Alunos
-            <a th:classappend="${menu == 'contas'} ? 'active'" class="nav-item nav-link" th:href="@{/empresas/cadastro}" >
+            <a th:classappend="${menu == 'Empresas'} ? 'active'" class="nav-item nav-link" th:href="@{/empresas/cadastro}" >
                 Empresas
             </a>
-            <a th:classappend="${menu == 'operacoes'} ? 'active'" class="nav-item nav-link" th:href="@{/ofertas/cadastro}">
+            <a th:classappend="${menu == 'Ofertas'} ? 'active'" class="nav-item nav-link" th:href="@{/ofertas/cadastro}">
                 Ofertas
             </a>
 
