@@ -25,9 +25,9 @@ public class EmpresaController {
     private EmpresaService empresaService;
 
     @GetMapping
-    @ResponseBody
-    public List<Empresa> listarTodos(){
-        return empresaService.listarTodos();
+    public String listarTodos(Model model){
+        model.addAttribute("empresas", empresaService.listarTodos());
+        return "empresa/listarEmpresa";
     }
 
     @PostMapping
@@ -37,9 +37,10 @@ public class EmpresaController {
     }
 
     @GetMapping("/{id}")
-    @ResponseBody
-    public Empresa buscarPorId(@PathVariable Long id){
-        return empresaService.buscarPorId(id);
+    public String buscarPorId(@PathVariable Long id, Model model){
+        model.addAttribute("empresa", empresaService.buscarPorId(id));
+        return "empresa/cadastroEmpresa";
+
     }
 
     @DeleteMapping("/{id}")
