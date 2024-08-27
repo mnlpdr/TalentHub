@@ -47,7 +47,7 @@ public class SecurityConfig {
                         formLogin
                                 .loginPage("/coordenador/login")
                                 .loginProcessingUrl("/coordenador/login") // URL onde o login é processado
-                                .defaultSuccessUrl("/coordenador/ofertas", true)
+                                .defaultSuccessUrl("/coordenador/candidaturas", true)
                                 .failureUrl("/coordenador/login?error=true")
                 )
                 .logout(logout ->

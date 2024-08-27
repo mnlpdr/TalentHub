@@ -29,6 +29,9 @@
             <a th:classappend="${menu == 'Ofertas'} ? 'active'" class="nav-item nav-link" th:href="@{/ofertas}">
                 Ofertas
             </a>
+            <a th:classappend="${menu == 'Coordanador'} ? 'active'" class="nav-item nav-link" th:href="@{/coordenador/login}">
+                Coordenador
+            </a>
 
         </div>
         <!-- <form class="form-inline my-2 my-lg-0" th:action="@{/auth/logout}" method="POST">

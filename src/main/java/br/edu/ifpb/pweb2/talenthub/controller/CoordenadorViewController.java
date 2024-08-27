@@ -18,11 +18,11 @@ public class CoordenadorViewController {
     private OfertaService ofertaService;
 
     // Metodo para listar todas as ofertas de estágio
-    @GetMapping("/ofertas")
+    @GetMapping("/candidaturas")
     public String listarOfertas(Model model) {
         List<Oferta> ofertas = ofertaService.listarTodos();
         model.addAttribute("ofertas", ofertas);
-        return "oferta/listarOferta";
+        return "coordenador/listarCandidaturas";
     }
 
     //Metodo para navegar para a página de login de coordenador
