@@ -43,7 +43,7 @@ public class AlunoController {
     @PostMapping("/cadastro")
     public String cadastrarAluno(@Valid @ModelAttribute Aluno aluno, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "cadastroAluno";
+            return "aluno/cadastroAluno";
         }
         alunoService.salvar(aluno);
         return "redirect:/alunos";
