@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
-import java.util.List;
+
 
 @Controller
 @RequestMapping("/alunos")
@@ -19,24 +19,17 @@ public class AlunoController {
     private AlunoService alunoService;
 
     // Método para listar todos os alunos (API REST)
-    @GetMapping
-    @ResponseBody
-    public List<Aluno> listarTodos(){
-        return alunoService.listarTodos();
+    @GetMapping()
+    public String listarTodos(Model model) {
+        model.addAttribute("alunos", alunoService.listarTodos());
+        return "aluno/listarAluno";
     }
 
-    // Método para criar um novo aluno via API REST (espera JSON)
-    @PostMapping("/api")
-    @ResponseBody
-    public Aluno criarViaApi(@RequestBody Aluno aluno){
-        return alunoService.salvar(aluno);
-    }
-
-    // Método para buscar um aluno por ID (API REST)
+    // Método para buscar um aluno por ID
     @GetMapping("/{id}")
-    @ResponseBody
-    public Aluno buscarPorId(@PathVariable Long id){
-        return alunoService.buscarPorId(id);
+    public String buscarPorId(@PathVariable Long id, Model model){
+        model.addAttribute("aluno", alunoService.buscarPorId(id));
+        return "aluno/cadastroAluno";
     }
 
     // Método para exibir o formulário de cadastro de aluno (Thymeleaf)
@@ -53,6 +46,13 @@ public class AlunoController {
             return "cadastroAluno";
         }
         alunoService.salvar(aluno);
-        return "redirect:/alunos/cadastro?success";
+        return "redirect:/alunos";
+    }
+
+    // Método para criar um novo aluno via API REST (espera JSON)
+    @PostMapping("/api")
+    @ResponseBody
+    public Aluno criarViaApi(@RequestBody Aluno aluno) {
+        return alunoService.salvar(aluno);
     }
 }
