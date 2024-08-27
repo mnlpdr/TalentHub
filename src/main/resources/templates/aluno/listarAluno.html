@@ -3,9 +3,14 @@
 <body>
     <div layout:fragment="content">
 
-        <form th:action="@{/alunos/cadastro}" method="GET">
-            <button class="btn btn-primary" type="submit">Novo</button>
-        </form>
+        <div class="head-buttons">
+            <form th:action="@{/alunos/cadastro}" method="GET">
+                <button class="btn btn-primary" type="submit">Novo</button>
+            </form>
+            <form th:action="@{/alunos/candidatura}" method="GET">
+                <button class="btn btn-primary" type="submit">Candidatar-se</button>
+            </form>
+        </div>
         <br />
 
         <div th:if="${not #lists.isEmpty(alunos)}">
@@ -26,11 +31,6 @@
                         <td>[[${aluno.id}]]</td>
                         <td><a th:href="@{/alunos/{id}(id=${aluno.id})}" th:text="${aluno.nome}"></a></td>
                         <td>[[${aluno.username}]]</td>
-                        <!-- <td class="text-center">
-                            <img th:if="${correntista.admin}" th:src="@{/imagens/admin.png}" />
-                            <img th:unless="${correntista.admin}" th:src="@{imagens/naoadmin.png}" />
-                        </td>
-                        <td class="text-center" th:text="${correntista.user != null ? correntista.user.username : 'Sem usuário'}"></td> -->
                     </tr>
                 </tbody>
             </table>

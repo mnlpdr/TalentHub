@@ -14,3 +14,9 @@
     font-family: 'Droid Serif';
     font-size: 2.3rem;
 }
+
+.head-buttons {
+    display: flex;
+    gap: 10px;
+    /* Espaço entre os botões */
+}

@@ -1,7 +1,10 @@
 package br.edu.ifpb.pweb2.talenthub.controller;
 
 import br.edu.ifpb.pweb2.talenthub.model.Aluno;
+import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.service.AlunoService;
+import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,9 @@ public class AlunoController {
 
     @Autowired
     private AlunoService alunoService;
+    
+    @Autowired
+    private OfertaService ofertaService;
 
     // Método para listar todos os alunos (API REST)
     @GetMapping()
@@ -56,6 +62,23 @@ public class AlunoController {
         return alunoService.salvar(aluno);
     }
 
+    @GetMapping("/candidatura")
+    public String showCandidatura(Model model) {
+        model.addAttribute("alunos", alunoService.listarTodos());
+        model.addAttribute("ofertas", ofertaService.listarTodos());
+        return "aluno/formCandidatura";
+    }
+
+    // Método para processar o formulário de cadastro de aluno (Thymeleaf)
+    @PutMapping("/candidatura")
+    public String cadastrarCandidatura(@RequestParam("aluno") Aluno aluno, @RequestParam("oferta") Oferta oferta, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "aluno/formCandidatura";
+        }
+        alunoService.candidatarAOferta(aluno.getId(), oferta.getId());
+        return "redirect:/alunos";
+    }
 
 
-}
+
+}   
