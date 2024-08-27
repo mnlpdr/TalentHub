@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OfertaService {
@@ -24,6 +25,16 @@ public class OfertaService {
     public Oferta buscarPorId(Long id) {
         return ofertaRepository.findById(id).orElse(null);
     }
+
+    public List<Oferta> buscarPorHabilidades(Set<String> habilidades) {
+        return ofertaRepository.findByHabilidadesNecessarias(habilidades);
+    }
+
+    public List<Oferta> buscarPorCritério(String critério) {
+        return ofertaRepository.findByPreRequisitosContaining(critério);
+    }
+
+
     public void deletar(Long id) {
         ofertaRepository.deleteById(id);
     }
