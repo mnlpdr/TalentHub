@@ -1,7 +1,9 @@
 package br.edu.ifpb.pweb2.talenthub.service;
 
 import br.edu.ifpb.pweb2.talenthub.model.Aluno;
+import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.repository.AlunoRepository;
+import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +16,9 @@ public class AlunoService {
 
     @Autowired
     private AlunoRepository alunoRepository;
+
+    @Autowired
+    private OfertaRepository ofertaRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -35,4 +40,17 @@ public class AlunoService {
     public void deletar(Long id) {
         alunoRepository.deleteById(id);
     }
+
+    // Adicionando uma oferta à lista de candidaturas de um aluno e salvando as alterações.
+    public void candidatarAOferta(Long alunoId, Long ofertaId) {
+        Aluno aluno = alunoRepository.findById(alunoId).orElse(null);
+        Oferta oferta = ofertaRepository.findById(ofertaId).orElse(null);
+
+        if (aluno != null && oferta != null) {
+            aluno.getOfertasCandidaturas().add(oferta);
+            alunoRepository.save(aluno);
+        }
+    }
+
+
 }
