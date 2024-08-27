@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Home'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Cadastro de Aluno'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
     <div layout:fragment="content">
@@ -21,6 +21,7 @@
                     <input type="text" class="form-control" id="habilidades" th:field="*{habilidades}" placeholder="Liste suas habilidades separadas por vírgula">
                 </div>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <a th:href="@{/alunos}" class="btn btn-secondary">Cancelar</a>
             </form>
     
     </div>
