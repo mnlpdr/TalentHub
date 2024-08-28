@@ -3,6 +3,7 @@ package br.edu.ifpb.pweb2.talenthub.controller;
 import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.service.EmpresaService;
 import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
+import br.edu.ifpb.pweb2.talenthub.utils.habilidades.Habilidade;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,9 +62,11 @@ public class OfertaController {
     public ModelAndView showOfertaForm(ModelAndView model){
         model.setViewName("oferta/criarOferta");
         model.addObject("oferta", new Oferta());
-        model.addObject("empresas",empresaService.listarTodos() );
+        model.addObject("empresas", empresaService.listarTodos());
+        model.addObject("habilidades", Habilidade.values()); // Passa o enum para o template
         return model;
     }
+
 
     @PostMapping("/cadastro")
     public String cadastrarOferta(@Valid @ModelAttribute Oferta oferta, BindingResult result, Model model){
@@ -74,5 +77,18 @@ public class OfertaController {
         return "redirect:/ofertas/listar";
         }
 
+    @GetMapping("/filtrar")
+    public String filtrarOfertas(@RequestParam(value = "valeTransporte", required = false) Boolean valeTransporte, Model model) {
+        List<Oferta> ofertasFiltradas;
+        if (valeTransporte == null) {
+            ofertasFiltradas = ofertaService.listarTodos();
+        } else {
+            ofertasFiltradas = ofertaService.filtrarPorValeTransporte(valeTransporte);
+        }
+        model.addAttribute("ofertas", ofertasFiltradas);
+        return "aluno/formCandidatura";
     }
+
+
+}
 

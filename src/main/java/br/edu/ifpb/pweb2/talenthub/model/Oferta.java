@@ -1,6 +1,9 @@
 package br.edu.ifpb.pweb2.talenthub.model;
 
+import br.edu.ifpb.pweb2.talenthub.utils.habilidades.Habilidade;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;

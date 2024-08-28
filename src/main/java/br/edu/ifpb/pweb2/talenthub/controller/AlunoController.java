@@ -70,12 +70,11 @@ public class AlunoController {
     }
 
     // Método para processar o formulário de cadastro de aluno (Thymeleaf)
-    @PutMapping("/candidatura")
-    public String cadastrarCandidatura(@RequestParam("aluno") Aluno aluno, @RequestParam("oferta") Oferta oferta, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "aluno/formCandidatura";
-        }
-        alunoService.candidatarAOferta(aluno.getId(), oferta.getId());
+    @PostMapping("/candidatura")
+    public String cadastrarCandidatura(@RequestParam("aluno") Long alunoId,
+                                       @RequestParam("oferta") Long ofertaId,
+                                       Model model) {
+        alunoService.candidatarAOferta(alunoId, ofertaId);
         return "redirect:/alunos";
     }
 

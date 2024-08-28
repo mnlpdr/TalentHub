@@ -6,6 +6,7 @@ import br.edu.ifpb.pweb2.talenthub.repository.AlunoRepository;
 import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -16,8 +17,11 @@ public class OfertaService {
     @Autowired
     private OfertaRepository ofertaRepository;
 
+<<<<<<< HEAD
     @Autowired
     private AlunoRepository alunoRepository;
+=======
+>>>>>>> 34c4f96095d3e77996b006fc397ad95512024534
 
     public Oferta salvar(Oferta oferta) {
         return ofertaRepository.save(oferta);
@@ -27,6 +31,7 @@ public class OfertaService {
         return ofertaRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Oferta buscarPorId(Long id) {
         return ofertaRepository.findById(id).orElse(null);
     }
@@ -56,5 +61,11 @@ public class OfertaService {
     }
 
     }
+
+    @Transactional
+    public List<Oferta> filtrarPorValeTransporte(boolean valeTransporte) {
+        return ofertaRepository.findByValeTransporte(valeTransporte);
+    }
+
 
 }

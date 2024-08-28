@@ -6,21 +6,20 @@ import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.service.AlunoService;
 import br.edu.ifpb.pweb2.talenthub.service.EmpresaService;
 import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
+import br.edu.ifpb.pweb2.talenthub.utils.habilidades.Habilidade;
 
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.*;
-
 
 @Controller
 @RequestMapping("/povoamento")
 public class PovoamentoController {
 
     @Autowired
-    private EmpresaService empresaService; 
+    private EmpresaService empresaService;
 
     @Autowired
     private OfertaService ofertaService;
@@ -31,7 +30,7 @@ public class PovoamentoController {
     @GetMapping("/salvar")
     @ResponseBody
     public String salvar() {
-        try{
+        try {
             // Empresa 1
             Empresa empresa1 = new Empresa();
             empresa1.setNome("Alpha Tech");
@@ -77,8 +76,12 @@ public class PovoamentoController {
             oferta1.setValor(1500.00);
             oferta1.setValeTransporte(true);
             oferta1.setPreRequisitos("Conhecimento em Java e Spring Boot");
-            oferta1.setHabilidadesNecessarias(Set.of("Java", "Spring Boot", "Git"));
-            oferta1.setHabilidadesDesejaveis(Set.of("AWS", "Docker"));
+            oferta1.setHabilidadesNecessarias(
+                    Set.of(Habilidade.JAVA.getLabel(), Habilidade.SPRING_BOOT.getLabel(), Habilidade.GIT.getLabel())
+            );
+            oferta1.setHabilidadesDesejaveis(
+                    Set.of(Habilidade.AWS.getLabel(), Habilidade.DOCKER.getLabel())
+            );
             oferta1.setEmpresa(empresa1);
 
             Oferta oferta2 = new Oferta();
@@ -87,8 +90,12 @@ public class PovoamentoController {
             oferta2.setValor(1200.00);
             oferta2.setValeTransporte(false);
             oferta2.setPreRequisitos("Conhecimento em SEO e Google Ads");
-            oferta2.setHabilidadesNecessarias(Set.of("SEO", "Google Ads", "Análise de Dados"));
-            oferta2.setHabilidadesDesejaveis(Set.of("Design Gráfico", "Copywriting"));
+            oferta2.setHabilidadesNecessarias(
+                    Set.of(Habilidade.SEO.getLabel(), Habilidade.GOOGLE_ADS.getLabel(), Habilidade.ANALISE_DE_DADOS.getLabel())
+            );
+            oferta2.setHabilidadesDesejaveis(
+                    Set.of(Habilidade.DESIGN_GRAFICO.getLabel(), Habilidade.COPYWRITING.getLabel())
+            );
             oferta2.setEmpresa(empresa2);
 
             Oferta oferta3 = new Oferta();
@@ -97,10 +104,14 @@ public class PovoamentoController {
             oferta3.setValor(1800.00);
             oferta3.setValeTransporte(true);
             oferta3.setPreRequisitos("Conhecimento em Metodologias Ágeis");
-            oferta3.setHabilidadesNecessarias(Set.of("Scrum", "Kanban", "JIRA"));
-            oferta3.setHabilidadesDesejaveis(Set.of("Gestão de Riscos", "Comunicação"));
+            oferta3.setHabilidadesNecessarias(
+                    Set.of(Habilidade.SCRUM.getLabel(), Habilidade.KANBAN.getLabel(), Habilidade.JIRA.getLabel())
+            );
+            oferta3.setHabilidadesDesejaveis(
+                    Set.of(Habilidade.GESTAO_DE_RISCOS.getLabel(), Habilidade.COMUNICACAO.getLabel())
+            );
             oferta3.setEmpresa(empresa3);
-            
+
             ofertaService.salvar(oferta1);
             ofertaService.salvar(oferta2);
             ofertaService.salvar(oferta3);
@@ -109,29 +120,36 @@ public class PovoamentoController {
             aluno1.setNome("João Silva");
             aluno1.setUsername("joaosilva");
             aluno1.setSenha("senha123");
-            aluno1.setHabilidades(Set.of("Java", "Spring Boot", "SQL"));
+            aluno1.setHabilidades(
+                    Set.of(Habilidade.JAVA.getLabel(), Habilidade.SPRING_BOOT.getLabel())
+            );
             aluno1.setOfertasCandidaturas(Set.of(oferta1, oferta2)); // Candidatura para oferta1 e oferta2
 
             Aluno aluno2 = new Aluno();
             aluno2.setNome("Maria Oliveira");
             aluno2.setUsername("mariaoliveira");
             aluno2.setSenha("senha456");
-            aluno2.setHabilidades(Set.of("SEO", "Google Ads", "Análise de Dados"));
+            aluno2.setHabilidades(
+                    Set.of(Habilidade.SEO.getLabel(), Habilidade.GOOGLE_ADS.getLabel(), Habilidade.ANALISE_DE_DADOS.getLabel())
+            );
             aluno2.setOfertasCandidaturas(Set.of(oferta2, oferta3)); // Candidatura para oferta2 e oferta3
 
             Aluno aluno3 = new Aluno();
             aluno3.setNome("Pedro Santos");
             aluno3.setUsername("pedrosantos");
             aluno3.setSenha("senha789");
-            aluno3.setHabilidades(Set.of("Scrum", "Kanban", "JIRA"));
+            aluno3.setHabilidades(
+                    Set.of(Habilidade.SCRUM.getLabel(), Habilidade.KANBAN.getLabel(), Habilidade.JIRA.getLabel())
+            );
             aluno3.setOfertasCandidaturas(Set.of(oferta1, oferta3)); // Candidatura para oferta1 e oferta3
 
             alunoService.salvar(aluno1);
             alunoService.salvar(aluno2);
             alunoService.salvar(aluno3);
 
-            return "Empresas, ofertas e alunos inseridos!";   
+            return "Empresas, ofertas e alunos inseridos!";
         } catch (Exception e) {
-            return "Ja cadastrados";        }
+            return "Erro ao cadastrar: " + e.getMessage();
+        }
     }
 }

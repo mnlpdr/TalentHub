@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Candidatura'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Candidatura e Ofertas'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 <div class="container" layout:fragment="content">
     <h2>Candidatar-se a oferta</h2>
-    <form th:action="@{/alunos/candidatura}">
-        <!-- Campo oculto para simular o método PUT -->
-        <input type="hidden" name="_method" value="put"/>
-
+    <form th:action="@{/alunos/candidatura}" method="post">
         <div class="form-group">
             <label for="aluno">Alunos</label>
             <select class="form-control" id="aluno" name="aluno">
@@ -16,7 +13,7 @@
         </div>
 
         <div class="form-group">
-            <label for="ofertas">Ofertas</label>
+            <label for="oferta">Ofertas</label>
             <select class="form-control" id="oferta" name="oferta">
                 <option value="" disabled selected>Selecione uma oferta</option>
                 <option th:each="oferta : ${ofertas}" th:value="${oferta.id}" th:text="${oferta.atividadePrincipal}"></option>
@@ -26,6 +23,45 @@
         <button type="submit" class="btn btn-primary">Cadastrar</button>
         <a th:href="@{/alunos}" class="btn btn-secondary">Cancelar</a>
     </form>
+
+    <br/>
+    <h3>Detalhes das Ofertas</h3>
+    <br>
+    <form th:action="@{/ofertas/filtrar}" method="get">
+        <div class="form-group">
+            <label for="valeTransporte">Vale Transporte</label>
+            <select class="form-control" id="valeTransporte" name="valeTransporte">
+                <option value="">Todas as ofertas</option>
+                <option value="true">Somente sem Vale Transporte</option>
+                <option value="false">Somente com Vale Transporte</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+<br>
+
+    <div class="row">
+        <div class="col-md-4" th:each="oferta : ${ofertas}">
+            <div class="card mb-4" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${oferta.atividadePrincipal}">Atividade Principal</h5>
+                    <p class="card-text"><strong>Empresa Responsável: </strong><span th:text="${oferta.empresa.nome}"></span></p>
+                    <p class="card-text"><strong>Carga Horária Semanal: </strong><span th:text="${oferta.cargaHorariaSemanal}"></span> horas</p>
+                    <p class="card-text"><strong>Valor: </strong>R$ <span th:text="${oferta.valor}"></span></p>
+                    <p class="card-text"><strong>Vale Transporte: </strong><span th:text="${oferta.valeTransporte != null && oferta.valeTransporte ? 'Não' : 'Sim'}"></span></p>
+                    <p class="card-text"><strong>Pré-requisitos: </strong><span th:text="${oferta.preRequisitos}"></span></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:each="habilidade : ${oferta.habilidadesNecessarias}">
+                        <strong>Habilidade Necessária: </strong><span th:text="${habilidade}"></span>
+                    </li>
+                    <li class="list-group-item" th:each="habilidade : ${oferta.habilidadesDesejaveis}">
+                        <strong>Habilidade Desejável: </strong><span th:text="${habilidade}"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
