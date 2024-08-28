@@ -36,6 +36,7 @@ public class Empresa {
     private String url;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
 //    @Column(name = "documento_endereco", columnDefinition = "BYTEA")
     @Column(name = "documento_endereco")
     private byte[] documentoEndereco;

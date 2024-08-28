@@ -48,12 +48,24 @@
         </div>
         <div class="form-group">
             <label for="habilidadeNec">Habilidades Necessárias</label>
-            <input type="text" class="form-control" id="habilidadeNec" th:field="*{habilidadesNecessarias}" placeholder="Digite as habilidades necessárias" required>
+            <div id="habilidadeNec" class="d-flex flex-wrap">
+                <div class="form-check mr-3 mb-2" th:each="habilidade : ${habilidades}">
+                    <input class="form-check-input" type="checkbox" th:field="*{habilidadesNecessarias}" th:value="${habilidade}">
+                    <label class="form-check-label" th:for="${habilidade}" th:text="${habilidade}"></label>
+                </div>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="habilidadeDes">Habilidades Desejáveis</label>
-            <input type="text" class="form-control" id="habilidadeDes" th:field="*{habilidadesDesejaveis}" placeholder="Descreva as habilidades desejáveis">
+            <div id="habilidadeDes" class="d-flex flex-wrap">
+                <div class="form-check mr-3 mb-2" th:each="habilidade : ${habilidades}">
+                    <input class="form-check-input" type="checkbox" th:field="*{habilidadesDesejaveis}" th:value="${habilidade}">
+                    <label class="form-check-label" th:for="${habilidade}" th:text="${habilidade}"></label>
+                </div>
+            </div>
         </div>
+
         <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
 </div>
