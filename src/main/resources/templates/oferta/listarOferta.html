@@ -26,7 +26,7 @@
                             </li>
                         </ul>
                         <div class="card-body">
-                            <form th:action="@{/ofertas/{id}/delete(id=${oferta.id})}">
+                            <form th:action="@{/ofertas/{id}/delete(id=${oferta.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta oferta? Esta ação não poderá ser desfeita.');">
                                 <button type="submit" class="btn btn-outline-danger">Excluir</button>
                             </form>
                         </div>
@@ -36,6 +36,4 @@
         </div>
     </div>
 </body>
-</html>
-
 </html>
