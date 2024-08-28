@@ -1,0 +1,14 @@
+spring.application.name=talenthub
+spring.datasource.url=jdbc:postgresql://localhost:5432/talenthub
+spring.datasource.username=seu_user
+spring.datasource.password=sua_senha
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
+spring.servlet.multipart.enabled=true
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=15MB
+
+server.port=8080
+
+server.servlet.context-path=/talenthub
