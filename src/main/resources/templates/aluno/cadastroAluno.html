@@ -1,29 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Cadastro de Aluno'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
-    <div layout:fragment="content">
-            <h2>Cadastro de Aluno</h2>
-            <form th:action="@{/alunos/cadastro}" th:object="${aluno}" method="post">
-                <div class="form-group">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Digite seu nome">
-                </div>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Digite um nome de usuário" required>
-                </div>
-                <div class="form-group">
-                    <label for="senha">Senha</label>
-                    <input type="password" class="form-control" id="senha" th:field="*{senha}" placeholder="Digite sua senha" required>
-                </div>
-                <div class="form-group">
-                    <label for="habilidades">Habilidades</label>
-                    <input type="text" class="form-control" id="habilidades" th:field="*{habilidades}" placeholder="Liste suas habilidades separadas por vírgula">
-                </div>
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
-                <a th:href="@{/alunos}" class="btn btn-secondary">Cancelar</a>
-            </form>
-    
-    </div>
+<div layout:fragment="content">
+    <h2>Cadastro de Aluno</h2>
+    <form th:action="@{/alunos/cadastro}" th:object="${aluno}" method="post">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Digite seu nome">
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Digite um nome de usuário" required>
+        </div>
+        <div class="form-group">
+            <label for="senha">Senha</label>
+            <input type="password" class="form-control" id="senha" th:field="*{senha}" placeholder="Digite sua senha" required>
+        </div>
+        <div class="form-group">
+            <label>Habilidades</label><br>
+            <div th:each="habilidade : ${habilidades}">
+                <input type="checkbox" th:field="*{habilidades}" th:value="${habilidade}" /> <span th:text="${habilidade.label}"></span><br>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <a th:href="@{/alunos}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
 </body>
 </html>

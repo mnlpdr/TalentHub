@@ -1,5 +1,6 @@
 package br.edu.ifpb.pweb2.talenthub.model;
 
+import br.edu.ifpb.pweb2.talenthub.utils.habilidades.Habilidade;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Data
 @NoArgsConstructor
@@ -27,14 +27,16 @@ public class Aluno {
     @Column(nullable = false)
     private String senha;
 
-    // Exemplo de habilidades (isso pode ser ajustado conforme a necessidade)
-    @ElementCollection
-    private Set<String> habilidades = new HashSet<>(); // Mudança para evitar NullPointerException.
+    // Coleção de habilidades como um Set de Habilidade
+    @ElementCollection(targetClass = Habilidade.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "aluno_habilidades")
+    @Column(name = "habilidade")
+    private Set<Habilidade> habilidades = new HashSet<>();
 
     @OneToMany(mappedBy = "aluno")
     private Set<Estagio> estagios;
 
-    // Propriedade ofertasCandidaturas adicionada para relação n:n com Oferta.
     @ManyToMany
     @JoinTable(
             name = "aluno_oferta",
@@ -42,5 +44,4 @@ public class Aluno {
             inverseJoinColumns = @JoinColumn(name = "oferta_id")
     )
     private Set<Oferta> ofertasCandidaturas = new HashSet<>();
-
 }
