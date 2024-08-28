@@ -77,6 +77,12 @@ public class AlunoController {
         return "redirect:/alunos";
     }
 
+    @GetMapping("detalhamento/{id}")
+    public String detalhamento(@PathVariable Long id, Model model){
+        model.addAttribute("aluno", alunoService.buscarPorId(id));
+        return "aluno/detalhamentoAluno";
+    }
+
 
 
 }   

@@ -89,6 +89,12 @@ public class OfertaController {
         return "aluno/formCandidatura";
     }
 
+    @GetMapping("detalhamento/{id}")
+    public String detalhamento(@PathVariable Long id, Model model) {
+        model.addAttribute("oferta", ofertaService.buscarPorId(id));
+        return "oferta/detalhamentoOferta";
+    }
+
 
 }
 

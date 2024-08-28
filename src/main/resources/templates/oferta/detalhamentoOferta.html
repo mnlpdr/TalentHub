@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Detalhes da Oferta'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${oferta.atividadePrincipal}">Atividade Principal</h5>
+                        <p class="card-text"><strong>Carga horária: </strong><span th:text="${oferta.cargaHorariaSemanal}"></span></p>
+                        <p class="card-text"><strong>Valor: </strong><span th:text="${oferta.valor}"></span></p>
+                        <p class="card-text"><strong>Vale Transporte: </strong><span th:text="${oferta.valeTransporte != null && oferta.valeTransporte ? 'Não' : 'Sim'}"></span></p>
+
+
+                        <p class="card-text"><strong>Pré-Requisitos: </strong><span th:text="${oferta.preRequisitos}"></span></p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Habilidade Necessária: </strong><span th:text="${oferta.habilidadesNecessarias}"></span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Habilidade Desejável: </strong><span th:text="${oferta.habilidadesDesejaveis}"></span>
+                            </li>
+                        </ul>
+                        <!-- Botão para retornar à última página visitada -->
+                        <button type="button" class="btn btn-primary mt-3" onclick="history.back()">Voltar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

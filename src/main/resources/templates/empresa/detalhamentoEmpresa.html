@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Detalhes da empresa'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${empresa.nome}">Nome de empresa</h5>
+                        <p class="card-text"><strong>CNPJ: </strong><span th:text="${empresa.cnpj}"></span></p>
+                        <p class="card-text"><strong>Endereço: </strong><span th:text="${empresa.endereco}"></span></p>
+                        <p class="card-text"><strong>E-mail: </strong><span th:text="${empresa.email}"></span></p>
+                        <p class="card-text"><strong>Pessoa de contato: </strong><span th:text="${empresa.pessoaContato}"></span></p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:text="${empresa.atividadePrincipal}">
+                            </li>
+                        </ul>
+                        <!-- Botão para retornar à última página visitada -->
+                        <button type="button" class="btn btn-primary mt-3" onclick="history.back()">Voltar</button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

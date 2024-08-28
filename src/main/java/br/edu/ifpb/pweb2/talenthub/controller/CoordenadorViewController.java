@@ -1,7 +1,7 @@
 package br.edu.ifpb.pweb2.talenthub.controller;
 
 import br.edu.ifpb.pweb2.talenthub.service.AlunoService;
-import br.edu.ifpb.pweb2.talenthub.utils.CandidaturaDTO;
+import br.edu.ifpb.pweb2.talenthub.utils.DTO.CandidaturaDTO;
 
 import java.util.List;
 

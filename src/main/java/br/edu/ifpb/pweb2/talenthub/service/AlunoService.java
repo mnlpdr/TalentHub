@@ -4,7 +4,8 @@ import br.edu.ifpb.pweb2.talenthub.model.Aluno;
 import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.repository.AlunoRepository;
 import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
-import br.edu.ifpb.pweb2.talenthub.utils.CandidaturaDTO;
+import br.edu.ifpb.pweb2.talenthub.utils.DTO.CandidaturaDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;

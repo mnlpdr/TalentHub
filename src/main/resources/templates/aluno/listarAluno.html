@@ -29,7 +29,7 @@
                 <tbody>
                     <tr th:each="aluno : ${alunos}">
                         <td>[[${aluno.id}]]</td>
-                        <td><a th:href="@{/alunos/{id}(id=${aluno.id})}" th:text="${aluno.nome}"></a></td>
+                        <td><a th:href="@{/alunos/detalhamento/{id}(id=${aluno.id})}" th:text="${aluno.nome}"></a></td>
                         <td>[[${aluno.username}]]</td>
                     </tr>
                 </tbody>

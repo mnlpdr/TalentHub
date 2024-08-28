@@ -15,9 +15,9 @@
                 <tbody>
                     <!-- Itera sobre a lista de candidaturas -->
                     <tr th:each="candidatura : ${candidaturas}">
-                        <td th:text="${candidatura.nomeAluno}"></td>
-                        <td th:text="${candidatura.nomeEmpresa}"></td>
-                        <td th:text="${candidatura.nomeOferta}"></td>
+                        <td><a th:href="@{/alunos/detalhamento/{id}(id=${candidatura.alunoID})}" th:text="${candidatura.nomeAluno}"></a></td>
+                        <td><a th:href="@{/empresas/detalhamento/{id}(id=${candidatura.empresaID})}" th:text="${candidatura.nomeEmpresa}"></a></td>
+                        <td><a th:href="@{/ofertas/detalhamento/{id}(id=${candidatura.ofertaID})}" th:text="${candidatura.nomeOferta}"></a></td>
                     </tr>
                 </tbody>
             </table>

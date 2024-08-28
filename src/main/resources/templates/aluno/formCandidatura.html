@@ -4,6 +4,7 @@
 <div class="container" layout:fragment="content">
     <h2>Candidatar-se a oferta</h2>
     <form th:action="@{/alunos/candidatura}" method="post">
+        
         <div class="form-group">
             <label for="aluno">Alunos</label>
             <select class="form-control" id="aluno" name="aluno">
@@ -11,7 +12,6 @@
                 <option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
             </select>
         </div>
-
         <div class="form-group">
             <label for="oferta">Ofertas</label>
             <select class="form-control" id="oferta" name="oferta">

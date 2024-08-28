@@ -77,21 +77,11 @@ public class EmpresaController {
         return "redirect:/empresas/cadastro?success";
     }
 
-
-    @GetMapping("/testeInsercao")
-    @ResponseBody
-    public String testeInsercao() {
-        Empresa empresa = new Empresa();
-        empresa.setNome("Teste Empresa");
-        empresa.setCnpj("12345678901234");
-        empresa.setEndereco("Rua Exemplo, 123");
-        empresa.setTelefone("123456789");
-        empresa.setEmail("teste@empresa.com");
-        empresa.setAtividadePrincipal("Serviços de Teste");
-        empresa.setPessoaContato("Contato Teste");
-        empresa.setUrl("http://empresa.com");
-
-        empresaService.salvar(empresa);
-        return "Empresa salva com sucesso!";
+    @GetMapping("detalhamento/{id}")
+    public String detalhamento(@PathVariable Long id, Model model) {
+        model.addAttribute("empresa", empresaService.buscarPorId(id));
+        return "empresa/detalhamentoEmpresa";
     }
+
+
 }
