@@ -17,11 +17,8 @@ public class OfertaService {
     @Autowired
     private OfertaRepository ofertaRepository;
 
-<<<<<<< HEAD
     @Autowired
     private AlunoRepository alunoRepository;
-=======
->>>>>>> 34c4f96095d3e77996b006fc397ad95512024534
 
     public Oferta salvar(Oferta oferta) {
         return ofertaRepository.save(oferta);

@@ -1,7 +1,6 @@
 package br.edu.ifpb.pweb2.talenthub.controller;
 
 import br.edu.ifpb.pweb2.talenthub.model.Aluno;
-import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.service.AlunoService;
 import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
 
