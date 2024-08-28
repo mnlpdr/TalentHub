@@ -1,6 +1,7 @@
 package br.edu.ifpb.pweb2.talenthub.controller;
 
 import br.edu.ifpb.pweb2.talenthub.model.Oferta;
+import br.edu.ifpb.pweb2.talenthub.service.AlunoService;
 import br.edu.ifpb.pweb2.talenthub.service.EmpresaService;
 import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
 import br.edu.ifpb.pweb2.talenthub.utils.habilidades.Habilidade;
@@ -24,6 +25,8 @@ public class OfertaController {
     private OfertaService ofertaService;
     @Autowired
     private EmpresaService empresaService;
+    @Autowired
+    private AlunoService alunoService;
 
     @GetMapping
     public String listarTodos(Model model){
@@ -86,6 +89,7 @@ public class OfertaController {
             ofertasFiltradas = ofertaService.filtrarPorValeTransporte(valeTransporte);
         }
         model.addAttribute("ofertas", ofertasFiltradas);
+        model.addAttribute("alunos", alunoService.listarTodos());
         return "aluno/formCandidatura";
     }
 
