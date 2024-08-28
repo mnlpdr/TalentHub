@@ -77,5 +77,18 @@ public class OfertaController {
         return "redirect:/ofertas/listar";
         }
 
+    @GetMapping("/filtrar")
+    public String filtrarOfertas(@RequestParam(value = "valeTransporte", required = false) Boolean valeTransporte, Model model) {
+        List<Oferta> ofertasFiltradas;
+        if (valeTransporte == null) {
+            ofertasFiltradas = ofertaService.listarTodos();
+        } else {
+            ofertasFiltradas = ofertaService.filtrarPorValeTransporte(valeTransporte);
+        }
+        model.addAttribute("ofertas", ofertasFiltradas);
+        return "aluno/formCandidatura";
     }
+
+
+}
 

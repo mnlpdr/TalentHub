@@ -4,6 +4,7 @@ import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class OfertaService {
     @Autowired
     private OfertaRepository ofertaRepository;
 
+
     public Oferta salvar(Oferta oferta) {
         return ofertaRepository.save(oferta);
     }
@@ -22,6 +24,7 @@ public class OfertaService {
         return ofertaRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Oferta buscarPorId(Long id) {
         return ofertaRepository.findById(id).orElse(null);
     }
@@ -38,5 +41,11 @@ public class OfertaService {
     public void deletar(Long id) {
         ofertaRepository.deleteById(id);
     }
+
+    @Transactional
+    public List<Oferta> filtrarPorValeTransporte(boolean valeTransporte) {
+        return ofertaRepository.findByValeTransporte(valeTransporte);
+    }
+
 
 }

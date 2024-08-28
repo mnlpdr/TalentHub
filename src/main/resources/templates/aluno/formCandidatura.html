@@ -26,6 +26,20 @@
 
     <br/>
     <h3>Detalhes das Ofertas</h3>
+    <br>
+    <form th:action="@{/ofertas/filtrar}" method="get">
+        <div class="form-group">
+            <label for="valeTransporte">Vale Transporte</label>
+            <select class="form-control" id="valeTransporte" name="valeTransporte">
+                <option value="">Todas as ofertas</option>
+                <option value="true">Somente sem Vale Transporte</option>
+                <option value="false">Somente com Vale Transporte</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+<br>
+
     <div class="row">
         <div class="col-md-4" th:each="oferta : ${ofertas}">
             <div class="card mb-4" style="width: 100%;">
