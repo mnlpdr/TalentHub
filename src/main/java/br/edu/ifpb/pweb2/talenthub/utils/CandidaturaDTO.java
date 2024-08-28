@@ -5,6 +5,13 @@ public class CandidaturaDTO {
     private String nomeEmpresa;
     private String nomeOferta;
 
+    // Construtor esperado pelo Hibernate
+    public CandidaturaDTO(String nomeAluno, String nomeEmpresa, String nomeOferta) {
+        this.nomeAluno = nomeAluno;
+        this.nomeEmpresa = nomeEmpresa;
+        this.nomeOferta = nomeOferta;
+    }
+
     // Getters e Setters
     public String getNomeAluno() {
         return nomeAluno;
