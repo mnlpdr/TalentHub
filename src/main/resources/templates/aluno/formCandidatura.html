@@ -3,10 +3,7 @@
 <body>
 <div class="container" layout:fragment="content">
     <h2>Candidatar-se a oferta</h2>
-    <form th:action="@{/alunos/candidatura}">
-        <!-- Campo oculto para simular o método PUT -->
-        <input type="hidden" name="_method" value="put"/>
-
+    <form th:action="@{/alunos/candidatura}" method="post">
         <div class="form-group">
             <label for="aluno">Alunos</label>
             <select class="form-control" id="aluno" name="aluno">
