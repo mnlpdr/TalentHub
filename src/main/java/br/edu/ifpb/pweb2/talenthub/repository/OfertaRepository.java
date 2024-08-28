@@ -27,4 +27,8 @@ public interface OfertaRepository extends JpaRepository<Oferta, Long> {
     // Encontra ofertas que contêm um pré-requisito específico em sua descrição.
     @Query("SELECT o FROM Oferta o WHERE o.preRequisitos LIKE %:preRequisitos%")
     List<Oferta> findByPreRequisitosContaining(@Param("preRequisitos") String preRequisitos);
+
+    List<Oferta> findByValeTransporte(boolean valeTransporte);
+
+
 }
