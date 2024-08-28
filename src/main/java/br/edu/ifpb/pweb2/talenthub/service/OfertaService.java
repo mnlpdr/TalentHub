@@ -1,6 +1,8 @@
 package br.edu.ifpb.pweb2.talenthub.service;
 
+import br.edu.ifpb.pweb2.talenthub.model.Aluno;
 import br.edu.ifpb.pweb2.talenthub.model.Oferta;
+import br.edu.ifpb.pweb2.talenthub.repository.AlunoRepository;
 import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class OfertaService {
 
     @Autowired
     private OfertaRepository ofertaRepository;
+
+    @Autowired
+    private AlunoRepository alunoRepository;
 
     public Oferta salvar(Oferta oferta) {
         return ofertaRepository.save(oferta);
@@ -35,8 +40,21 @@ public class OfertaService {
     }
 
 
-    public void deletar(Long id) {
-        ofertaRepository.deleteById(id);
+    public void deletar(Long ofertaId) {
+    Oferta oferta = ofertaRepository.findById(ofertaId).orElse(null);
+
+    if (oferta != null) {
+        // Primeiro, remova a oferta de todos os alunos que se candidataram a ela
+        for (Aluno aluno : alunoRepository.findAll()) {
+            aluno.getOfertasCandidaturas().remove(oferta);
+            alunoRepository.save(aluno);
+        }
+        
+        // Agora, exclua a oferta
+        ofertaRepository.delete(oferta);
+        
+    }
+
     }
 
 }
