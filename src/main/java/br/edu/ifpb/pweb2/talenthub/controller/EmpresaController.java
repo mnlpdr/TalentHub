@@ -1,6 +1,9 @@
 package br.edu.ifpb.pweb2.talenthub.controller;
 
 import br.edu.ifpb.pweb2.talenthub.model.Empresa;
+import br.edu.ifpb.pweb2.talenthub.model.Estagio;
+import br.edu.ifpb.pweb2.talenthub.repository.EmpresaRepository;
+import br.edu.ifpb.pweb2.talenthub.repository.EstagioRepository;
 import br.edu.ifpb.pweb2.talenthub.service.EmpresaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,14 @@ import org.slf4j.LoggerFactory;
 public class EmpresaController {
 
     private static final Logger logger = LoggerFactory.getLogger(EmpresaController.class);
+
+
+    @Autowired
+    private EmpresaRepository empresaRepository;
+
+    @Autowired
+    private EstagioRepository estagioRepository;
+
 
     @Autowired
     private EmpresaService empresaService;
@@ -42,6 +53,7 @@ public class EmpresaController {
         return "empresa/cadastroEmpresa";
 
     }
+
 
     @DeleteMapping("/{id}")
     @ResponseBody
@@ -82,6 +94,14 @@ public class EmpresaController {
         model.addAttribute("empresa", empresaService.buscarPorId(id));
         return "empresa/detalhamentoEmpresa";
     }
+
+    @GetMapping("/{id}/estagios")
+    public String listarEstagiosPorEmpresa(@PathVariable Long id, Model model) {
+        List<Estagio> estagios = empresaService.listarEstagiosPorEmpresa(id);
+        model.addAttribute("estagios", estagios);
+        return "empresa/listarEstagiosEmpresa";
+    }
+
 
 
 }
