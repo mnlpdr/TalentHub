@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Estágios da Empresa</title>
+</head>
+<body>
+<h1>Lista de Estágios da Empresa</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome do Aluno</th>
+        <th>Data de Início</th>
+        <th>Data de Término</th>
+        <th>Valor</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="estagio : ${estagios}">
+        <td th:text="${estagio.id}"></td>
+        <td th:text="${estagio.aluno.nome}"></td>
+        <td th:text="${estagio.dataInicio}"></td>
+        <td th:text="${estagio.dataTermino}"></td>
+        <td th:text="${estagio.valor}"></td>
+        <td>
+            <a th:href="@{/estagios/{id}/termo(id=${estagio.id})}" target="_blank">
+                Baixar Termo de Estágio
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
