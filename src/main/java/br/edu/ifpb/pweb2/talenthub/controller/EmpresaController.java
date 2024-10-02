@@ -74,7 +74,7 @@ public class EmpresaController {
         }
 
         empresaService.salvar(empresa);
-        return "redirect:/empresas/cadastro?success";
+        return "redirect:/empresas";
     }
 
     @GetMapping("detalhamento/{id}")
