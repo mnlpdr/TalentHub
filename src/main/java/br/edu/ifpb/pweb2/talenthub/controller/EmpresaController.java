@@ -43,13 +43,12 @@ public class EmpresaController {
         Empresa empresa = empresaService.buscarPorId(id);
         if (empresa != null) {
             model.addAttribute("empresa", empresa);
-            return "empresa/cadastroEmpresa";  // Reutiliza o formulário de cadastro para editar
+            return "empresa/cadastroEmpresa";
         } else {
-            return "redirect:/empresas";  // Redireciona se a empresa não for encontrada
+            return "redirect:/empresas";
         }
     }
 
-    // Método POST para atualizar a empresa
     @PostMapping("/editar/{id}")
     public String atualizarEmpresa(@PathVariable Long id, @Valid @ModelAttribute Empresa empresa, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -57,9 +56,9 @@ public class EmpresaController {
         }
 
         try {
-            // Certifica que o ID está sendo passado corretamente
+
             empresa.setId(id);
-            empresaService.salvar(empresa);  // Chama o método salvar que detecta edição ou criação
+            empresaService.salvar(empresa);
         } catch (IllegalArgumentException e) {
             model.addAttribute("cnpjError", e.getMessage());
             return "empresa/cadastroEmpresa";
