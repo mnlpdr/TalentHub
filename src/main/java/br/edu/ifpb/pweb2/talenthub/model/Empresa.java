@@ -2,6 +2,10 @@ package br.edu.ifpb.pweb2.talenthub.model;
 
 import jakarta.persistence.*;
 import java.util.Set;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
