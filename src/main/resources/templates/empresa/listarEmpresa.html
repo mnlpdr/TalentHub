@@ -31,6 +31,12 @@
                         <td>[[${empresa.pessoaContato}]]</td>
                         <td>[[${empresa.atividadePrincipal}]]</td>
                         <td>[[${empresa.url}]]</td>
+                        <td>
+                            <a th:if="${#authorization.expression('hasRole(''COORDENADOR'')')}"
+                               th:href="@{/empresas/editar/{id}(id=${empresa.id})}" class="btn btn-primary">
+                                Editar
+                            </a>
+                        </td>
 
                     </tr>
                 </tbody>

@@ -38,6 +38,36 @@ public class EmpresaController {
     @Autowired
     private EmpresaService empresaService;
 
+    @GetMapping("/editar/{id}")
+    public String editarEmpresa(@PathVariable Long id, Model model) {
+        Empresa empresa = empresaService.buscarPorId(id);
+        if (empresa != null) {
+            model.addAttribute("empresa", empresa);
+            return "empresa/cadastroEmpresa";  // Reutiliza o formulário de cadastro para editar
+        } else {
+            return "redirect:/empresas";  // Redireciona se a empresa não for encontrada
+        }
+    }
+
+    // Método POST para atualizar a empresa
+    @PostMapping("/editar/{id}")
+    public String atualizarEmpresa(@PathVariable Long id, @Valid @ModelAttribute Empresa empresa, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "empresa/cadastroEmpresa";
+        }
+
+        try {
+            // Certifica que o ID está sendo passado corretamente
+            empresa.setId(id);
+            empresaService.salvar(empresa);  // Chama o método salvar que detecta edição ou criação
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("cnpjError", e.getMessage());
+            return "empresa/cadastroEmpresa";
+        }
+
+        return "redirect:/empresas";
+    }
+
     @GetMapping
     public String listarTodos(
             @RequestParam(value = "page", defaultValue = "0") int page,

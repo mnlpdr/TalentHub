@@ -38,15 +38,16 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/coordenador/login").permitAll() // Permite acesso à página de login sem autenticação
-                                .requestMatchers("/coordenador/**").hasRole("COORDENADOR") // Protege as URLs que começam com /coordenador/**
-                                .anyRequest().permitAll() // Permite acesso a todas as rotas sem autenticação
+                                .requestMatchers("/coordenador/login").permitAll()
+                                .requestMatchers("/coordenador/**").hasRole("COORDENADOR")
+                                .requestMatchers("/empresas/editar/**").hasRole("COORDENADOR")
+                                .anyRequest().permitAll()
 
                 )
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/coordenador/login")
-                                .loginProcessingUrl("/coordenador/login") // URL onde o login é processado
+                                .loginProcessingUrl("/coordenador/login")
                                 .defaultSuccessUrl("/coordenador/candidaturas", true)
                                 .failureUrl("/coordenador/login?error=true")
                 )
