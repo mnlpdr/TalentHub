@@ -19,18 +19,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+
+
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
     @Autowired
     private DataSource dataSource;
-
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/imagens/**").permitAll()
+                        .requestMatchers("talenthub/css/**", "talenthub/imagens/**").permitAll()
+                        .requestMatchers("/talenthub/alunos/**").hasAnyRole("ALUNO","COORDENADOR")
+                        .requestMatchers("talenthub/empresas/**").hasAnyRole("EMPRESA","COORDENADOR")
+                        .requestMatchers("talenthub/**").hasRole("COORDENADOR")
                         .anyRequest().authenticated())
                 .formLogin((form)->form
                         .loginPage("/login")
@@ -45,24 +50,28 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public UserDetailsService userDetailsService() {
-            UserDetails a1 = User.withUsername("geraldo").password(passwordEncoder().encode("geraldo")).roles("ALUNO").build();
-        UserDetails a2 = User.withUsername("pedro").password(passwordEncoder().encode("pedro")).roles("ALUNO").build();
-        UserDetails emp1 = User.withUsername("ifood").password(passwordEncoder().encode("ifood")).roles("EMPRESA").build();
-        UserDetails emp2 = User.withUsername("embraer").password(passwordEncoder().encode("embraer")).roles("EMPRESA").build();
-        UserDetails coord1 = User.withUsername("coordenador1").password(passwordEncoder().encode("coordenador1")).roles("COORDENADOR").build();
-        UserDetails coord2 = User.withUsername("coordenador2").password(passwordEncoder().encode("coordenador2")).roles("COORDENADOR").build();
+        // Alguns usuários básicos, criados quando da 1a. execução da aplicaçao
+        UserDetails a1 = User.withUsername("geraldo").password(passwordEncoder().encode("geraldo")).roles("ALUNO")
+                .build();
+        UserDetails a2 = User.withUsername("pedro").password(passwordEncoder().encode("pedro")).roles("ALUNO")
+                .build();
+        UserDetails emp1 = User.withUsername("ifood").password(passwordEncoder().encode("ifood")).roles("EMPRESA")
+                .build();
+        UserDetails emp2 = User.withUsername("embraer").password(passwordEncoder().encode("embraer")).roles("EMPRESA")
+                .build();
+        UserDetails coord1 = User.withUsername("coordenador1").password(passwordEncoder().encode("coordenador1"))
+                .roles("COORDENADOR").build();
 
         // Evita duplicação dos usuários no banco
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
         if (!users.userExists(a1.getUsername())) {
             users.createUser(a1);
-            users.createUser(a2);
             users.createUser(emp1);
             users.createUser(emp2);
             users.createUser(coord1);
-            users.createUser(coord2);
         }
         return users;
     }
@@ -74,6 +83,6 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-
 }
+
 
