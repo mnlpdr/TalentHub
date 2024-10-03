@@ -1,11 +1,14 @@
 package br.edu.ifpb.pweb2.talenthub.service;
 
+import br.edu.ifpb.pweb2.talenthub.model.Autoridade;
 import br.edu.ifpb.pweb2.talenthub.model.Empresa;
 import br.edu.ifpb.pweb2.talenthub.repository.EmpresaRepository;
 import br.edu.ifpb.pweb2.talenthub.repository.EstagioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.ifpb.pweb2.talenthub.model.Estagio;
+import br.edu.ifpb.pweb2.talenthub.model.Usuario;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -46,6 +49,20 @@ public class EmpresaService {
 
             return empresaRepository.save(empresaExistente);
         }
+
+        // Cria um novo usuário para o login
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setUsername(a.getUsername());
+        novoUsuario.setPassword(aluno.getSenha()); // Senha já encriptada
+        novoUsuario.setEnabled(true);
+
+        // Defina o papel (ROLE) como "ALUNO"
+        Autoridade autoridade = new Autoridade();
+        autoridade.setUsername(novoUsuario);
+        autoridade.setAuthority("ALUNO");
+
+        novoUsuario.setAuthorities(List.of(autoridade));
+        usuarioRepository.save(novoUsuario);
 
         return empresaRepository.save(empresa);
     }
