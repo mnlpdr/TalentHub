@@ -7,6 +7,8 @@ import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Set;
@@ -24,8 +26,8 @@ public class OfertaService {
         return ofertaRepository.save(oferta);
     }
 
-    public List<Oferta> listarTodos(){
-        return ofertaRepository.findAll();
+    public Page<Oferta> listarTodos(Pageable pageable) {
+        return ofertaRepository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)

@@ -1,6 +1,7 @@
 package br.edu.ifpb.pweb2.talenthub.controller;
 
 import br.edu.ifpb.pweb2.talenthub.model.Aluno;
+import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.service.AlunoService;
 import br.edu.ifpb.pweb2.talenthub.service.OfertaService;
 import br.edu.ifpb.pweb2.talenthub.utils.habilidades.Habilidade;
@@ -11,6 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -66,9 +71,19 @@ public class AlunoController {
     }
 
     @GetMapping("/candidatura")
-    public String showCandidatura(Model model) {
+    public String showCandidatura(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);  // Define a paginação para as ofertas
+
         model.addAttribute("alunos", alunoService.listarTodos());
-        model.addAttribute("ofertas", ofertaService.listarTodos());
+
+        // Atualizando para usar paginação nas ofertas
+        Page<Oferta> ofertaPage = ofertaService.listarTodos(pageable);
+        model.addAttribute("ofertas", ofertaPage.getContent());
+
         return "aluno/formCandidatura";
     }
 
