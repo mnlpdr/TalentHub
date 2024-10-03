@@ -12,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.util.List;
@@ -66,8 +69,18 @@ public class EmpresaController {
     }
 
     @GetMapping
-    public String listarTodos(Model model){
-        model.addAttribute("empresas", empresaService.listarTodos());
+    public String listarTodos(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Empresa> empresaPage = empresaService.listarTodos(pageable);
+
+        model.addAttribute("empresas", empresaPage.getContent());
+        model.addAttribute("totalPages", empresaPage.getTotalPages());
+        model.addAttribute("currentPage", page);
+
         return "empresa/listarEmpresa";
     }
 

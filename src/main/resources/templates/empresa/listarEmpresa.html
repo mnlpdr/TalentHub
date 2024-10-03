@@ -20,7 +20,7 @@
                         <th>Pessoa de Contato</th>
                         <th>Atividade Principal</th>
                         <th>URL da empresa</th>
-                       
+
                     </tr>
                 </thead>
                 <tbody>
@@ -37,11 +37,40 @@
                                 Editar
                             </a>
                         </td>
-                       
+
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <div>
+            <span th:text="'Página ' + (${currentPage} + 1) + ' de ' + ${totalPages}"></span>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <!-- Botão para página anterior -->
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/empresas(page=${currentPage - 1}, size=${pageSize})}" aria-label="Anterior">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- Botões numéricos de páginas -->
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{/empresas(page=${i}, size=${pageSize})}" th:text="${i + 1}">1</a>
+                    </li>
+
+                    <!-- Botão para próxima página -->
+                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/empresas(page=${currentPage + 1}, size=${pageSize})}" aria-label="Próxima">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+
     </div>
 </body>
 

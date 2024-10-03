@@ -6,6 +6,8 @@ import br.edu.ifpb.pweb2.talenthub.repository.EstagioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.ifpb.pweb2.talenthub.model.Estagio;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +56,8 @@ public class EmpresaService {
         return empresaRepository.save(empresa);  // Insere nova empresa
     }
 
-    public List<Empresa> listarTodos(){
-        return empresaRepository.findAll();
+    public Page<Empresa> listarTodos(Pageable pageable){
+        return empresaRepository.findAll(pageable);
     }
 
     public Empresa buscarPorId(Long id){
