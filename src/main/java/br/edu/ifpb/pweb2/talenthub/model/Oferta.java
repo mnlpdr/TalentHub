@@ -40,4 +40,12 @@ public class Oferta {
     @OneToMany(mappedBy = "oferta")
     private Set<Estagio> estagios;
 
+    @ManyToMany
+    @JoinTable(
+            name = "oferta_candidato",
+            joinColumns = @JoinColumn(name = "oferta_id"),
+            inverseJoinColumns = @JoinColumn(name = "aluno_id"))
+    private Set<Aluno> candidatos;
+
+
 }

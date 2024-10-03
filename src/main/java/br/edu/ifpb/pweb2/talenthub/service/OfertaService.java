@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,12 @@ public class OfertaService {
     @Transactional(readOnly = true)
     public Oferta buscarPorId(Long id) {
         return ofertaRepository.findById(id).orElse(null);
+    }
+
+    public List<Aluno> buscarCandidatosPorOferta(Long ofertaId) {
+        Oferta oferta = ofertaRepository.findById(ofertaId)
+                .orElseThrow(() -> new RuntimeException("Oferta não encontrada"));
+        return new ArrayList<>(oferta.getCandidatos());
     }
 
     public List<Oferta> buscarPorHabilidades(Set<String> habilidades) {
