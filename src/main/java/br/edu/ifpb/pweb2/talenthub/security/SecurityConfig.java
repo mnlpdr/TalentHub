@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -26,25 +28,29 @@ public class SecurityConfig {
     private DataSource dataSource;
 
     @Bean
-    protected SecurityFilterChain configure(HttpSecurity http) throws Exception{
-        http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/imagens/**").permitAll()  // Permite acesso aos recursos estáticos
-                        .requestMatchers("/alunos/**").hasAnyRole("ALUNO", "COORDENADOR")  // Alunos podem acessar suas rotas
-                        .requestMatchers("/empresas/**").hasAnyRole("EMPRESA", "COORDENADOR")  // Empresas acessam /empresas/**
-                        .requestMatchers("/ofertas/**").hasAnyRole("EMPRESA", "COORDENADOR")  // Bloqueia /ofertas para alunos, mas permite para empresas e coordenadores
-                        .requestMatchers("/coordenador/**").hasRole("COORDENADOR")  // Coordenadores podem acessar todas as rotas de coordenador
-                        .anyRequest().authenticated())  // Requer autenticação para todas as outras rotas
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true"))
-                .csrf(csrf -> csrf.disable());  // Desativa CSRF
+    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+            http
+                            .authorizeHttpRequests(auth -> auth
+                                            .requestMatchers("/css/**", "/imagens/**").permitAll()
+                                            .requestMatchers("/login", "/error").permitAll() // Permite o acesso ao
+                                                                                             // login e à página de erro
+                                            .requestMatchers("/alunos/**").hasAnyRole("ALUNO", "COORDENADOR")
+                                            .requestMatchers("/empresas/**").hasAnyRole("EMPRESA", "COORDENADOR")
+                                            .requestMatchers("/ofertas/**").hasAnyRole("EMPRESA", "COORDENADOR")
+                                            .requestMatchers("/coordenador/**").hasRole("COORDENADOR")
+                                            .anyRequest().authenticated())
+                            .formLogin(form -> form
+                                            .loginPage("/login")
+                                            .defaultSuccessUrl("/home", true)
+                                            .permitAll())
+                            .logout(logout -> logout
+                                            .logoutUrl("/logout")
+                                            .logoutSuccessUrl("/login?logout=true"))
+                            .exceptionHandling(exceptionHandling -> exceptionHandling
+                                            .accessDeniedHandler(accessDeniedHandler()))
+                            .csrf(csrf -> csrf.disable());
 
-        return http.build();
+            return http.build();
     }
 
     @Bean
@@ -85,4 +91,12 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-}
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+            AccessDeniedHandlerImpl accessDeniedHandler = new AccessDeniedHandlerImpl();
+            accessDeniedHandler.setErrorPage("/error"); // Define a página de erro
+            return accessDeniedHandler;
+    }
+
+} 
