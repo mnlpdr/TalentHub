@@ -1,5 +1,6 @@
 package br.edu.ifpb.pweb2.talenthub.controller;
 
+import br.edu.ifpb.pweb2.talenthub.model.Aluno;
 import br.edu.ifpb.pweb2.talenthub.model.Estagio;
 import br.edu.ifpb.pweb2.talenthub.service.EstagioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -57,6 +59,19 @@ public class EstagioController {
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping("/converter")
+    public ResponseEntity<String> converterOfertaParaEstagio(
+            @RequestParam Long ofertaId,
+            @RequestBody List<Aluno> alunos,
+            @RequestParam LocalDate dataInicio,
+            @RequestParam LocalDate dataTermino,
+            @RequestParam Double valor
+    ) {
+        estagioService.converterOfertaParaEstagio(ofertaId, alunos, dataInicio, dataTermino, valor);
+        return ResponseEntity.ok("Estágios criados com sucesso");
+    }
+
 
 
 }

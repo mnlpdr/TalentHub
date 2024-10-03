@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import br.edu.ifpb.pweb2.talenthub.model.Aluno;
+import br.edu.ifpb.pweb2.talenthub.model.Oferta;
+import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
+
+import java.time.LocalDate;
+
 
 import javax.print.Doc;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +26,9 @@ import java.util.List;
 public class EstagioService {
     @Autowired
     private EstagioRepository estagioRepository;
+    @Autowired
+    private OfertaRepository ofertaRepository;
+
 
     public Estagio salvar(Estagio estagio) {
         return estagioRepository.save(estagio);
@@ -62,5 +71,23 @@ public class EstagioService {
 
         return null;
     }
+
+    public void converterOfertaParaEstagio(Long ofertaId, List<Aluno> alunos, LocalDate dataInicio, LocalDate dataTermino, Double valor) {
+        Oferta oferta = ofertaRepository.findById(ofertaId)
+                .orElseThrow(() -> new RuntimeException("Oferta não encontrada"));
+
+        for (Aluno aluno : alunos) {
+            Estagio estagio = new Estagio();
+            estagio.setOferta(oferta);
+            estagio.setAluno(aluno);
+            estagio.setDataInicio(dataInicio);
+            estagio.setDataTermino(dataTermino);
+            estagio.setValor(valor);
+
+            // Salvar o estágio
+            estagioRepository.save(estagio);
+        }
+    }
+
 
 }
