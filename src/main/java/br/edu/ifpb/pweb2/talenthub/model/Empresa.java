@@ -39,6 +39,10 @@ public class Empresa {
 
     private String url;
 
+    @Transient
+    @Column(nullable = false)
+    private String senha;
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
 //    @Column(name = "documento_endereco", columnDefinition = "BYTEA")

@@ -3,11 +3,14 @@ package br.edu.ifpb.pweb2.talenthub.service;
 import br.edu.ifpb.pweb2.talenthub.model.Empresa;
 import br.edu.ifpb.pweb2.talenthub.repository.EmpresaRepository;
 import br.edu.ifpb.pweb2.talenthub.repository.EstagioRepository;
+import br.edu.ifpb.pweb2.talenthub.repository.UsuarioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.ifpb.pweb2.talenthub.model.Estagio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,10 @@ public class EmpresaService {
     private EmpresaRepository empresaRepository;
     @Autowired
     private EstagioRepository estagioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
 
     public Empresa salvar(Empresa empresa) {
@@ -49,11 +56,28 @@ public class EmpresaService {
                 empresaExistente.setDocumentoEndereco(empresa.getDocumentoEndereco());
             }
 
-            return empresaRepository.save(empresaExistente);  // Atualiza no banco
+            return empresaRepository.save(empresaExistente);
         }
 
-        // Caso seja uma nova empresa (sem ID)
-        return empresaRepository.save(empresa);  // Insere nova empresa
+        // Se for uma nova empresa, criar um usuário e criptografar a senha
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setUsername(empresa.getEmail()); // Usando o e-mail como nome de usuário
+        novoUsuario.setPassword(passwordEncoder.encode(empresa.getSenha())); // Criptografando a senha
+        novoUsuario.setEnabled(true);
+
+        // Definindo a role como "ROLE_EMPRESA"
+        Autoridade.AuthorityId authorityId = new Autoridade.AuthorityId(novoUsuario.getUsername(), "ROLE_EMPRESA");
+        Autoridade autoridade = new Autoridade();
+        autoridade.setId(authorityId);
+        autoridade.setUsername(novoUsuario);
+
+        novoUsuario.setAuthorities(List.of(autoridade));
+
+        // Salvando o usuário
+        usuarioRepository.save(novoUsuario);
+
+        // Salvando a empresa
+        return empresaRepository.save(empresa);
     }
 
     public Page<Empresa> listarTodos(Pageable pageable){

@@ -18,7 +18,11 @@
                             <li th:each="oferta : ${aluno.ofertasCandidaturas}" th:text="${oferta.atividadePrincipal}"></li>
                         </ul>
                         <!-- Botão para retornar à última página visitada -->
-                        <button type="button" class="btn btn-primary mt-3" onclick="history.back()">Voltar</button>
+                        <a th:href="@{/home}" class="btn btn-secondary">Cancelar</a>
+                        
+                        <form th:action="@{/alunos/candidatura}" method="GET"></form>
+                            <button class="btn btn-primary" type="submit">Candidatar-se</button>
+                        </form>
                     </div>
                 </div>
             </div>

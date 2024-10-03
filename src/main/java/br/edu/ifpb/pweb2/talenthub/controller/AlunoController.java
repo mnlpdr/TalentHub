@@ -16,6 +16,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.List;
@@ -87,17 +93,56 @@ public class AlunoController {
         return "aluno/formCandidatura";
     }
 
+
+
     @PostMapping("/candidatura")
-    public String cadastrarCandidatura(@RequestParam("aluno") Long alunoId,
-                                       @RequestParam("oferta") Long ofertaId,
-                                       Model model) {
-        alunoService.candidatarAOferta(alunoId, ofertaId);
-        return "redirect:/alunos";
+    public String candidatar(@RequestParam("oferta") Long ofertaId, Model model) {
+        // Obter o aluno autenticado
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = null;
+        
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            username = userDetails.getUsername();
+        }
+
+        // Buscar o aluno logado pelo username
+        Aluno alunoLogado = alunoService.findByUserName(username);
+        if (alunoLogado == null) {
+            // Se o aluno não for encontrado, redirecionar para uma página de erro ou login
+            return "redirect:/login";
+        }
+
+        // Buscar a oferta selecionada
+        Oferta ofertaSelecionada = ofertaService.buscarPorId(ofertaId);
+        if (ofertaSelecionada == null) {
+            // Se a oferta não for encontrada, redirecionar para uma página de erro
+            return "redirect:/error";
+        }
+
+        // Realizar a candidatura
+        alunoService.candidatarAOferta(alunoLogado.getId(), ofertaSelecionada.getId());
+
+        // Redirecionar para uma página de confirmação ou para a lista de candidaturas
+        return "redirect:/alunos/detalhamento";
     }
 
-    @GetMapping("detalhamento/{id}")
-    public String detalhamento(@PathVariable Long id, Model model){
-        model.addAttribute("aluno", alunoService.buscarPorId(id));
+
+    @GetMapping("/detalhamento")
+    public String detalhamentoAlunoLogado(Model model) {
+        // Recupera o Authentication do usuário logado
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        // Extrai o nome de usuário (username) do Authentication
+        String username = authentication.getName();
+        
+        // Busca o aluno usando o nome de usuário
+        Aluno aluno = alunoService.findByUserName(username);
+        
+        // Adiciona o aluno no modelo para ser exibido na view
+        model.addAttribute("aluno", aluno);
+        
+        // Retorna a view de detalhamento do aluno
         return "aluno/detalhamentoAluno";
     }
 }
