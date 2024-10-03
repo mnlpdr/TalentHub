@@ -1,63 +1,82 @@
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Home'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" th:with="titulo='Cadastro de Empresa'" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 <div class="container" layout:fragment="content">
-    <h2>Cadastro de Empresa</h2>
+    <h2 th:text="${empresa.id != null} ? 'Editar Empresa' : 'Cadastrar Empresa'"></h2>
+
     <form th:action="@{/empresas/cadastro}" th:object="${empresa}" method="post" enctype="multipart/form-data">
+
+        <!-- Campo oculto para o ID (necessário para edição) -->
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- Exibição de erros gerais -->
         <div th:if="${#fields.hasErrors()}" class="alert alert-danger">
             <p th:each="err : ${#fields.allErrors()}">
                 <span th:text="${err}"></span>
             </p>
         </div>
+
+        <!-- Exibição de erro de arquivo -->
         <div th:if="${fileError}" class="alert alert-danger">
             <span th:text="${fileError}"></span>
         </div>
 
+        <!-- Campo Nome -->
         <div class="form-group">
             <label for="nome">Nome da Empresa</label>
             <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Digite o nome da empresa" required pattern="[A-Za-z\s]+" title="Somente letras e espaços são permitidos">
         </div>
 
+        <!-- Campo CNPJ (readonly ao editar) -->
         <div class="form-group">
             <label for="cnpj">CNPJ</label>
-            <input type="text" class="form-control" id="cnpj" th:field="*{cnpj}" placeholder="Digite o CNPJ" required pattern="\d{14}" title="CNPJ deve ter exatamente 14 dígitos numéricos">
+            <input type="text" class="form-control" id="cnpj" th:field="*{cnpj}" placeholder="Digite o CNPJ" required pattern="\d{14}" title="CNPJ deve ter exatamente 14 dígitos numéricos"
+                   th:attr="readonly=${empresa.id != null}">
         </div>
 
+        <!-- Campo Endereço -->
         <div class="form-group">
             <label for="endereco">Endereço</label>
             <input type="text" class="form-control" id="endereco" th:field="*{endereco}" placeholder="Digite o endereço" required>
         </div>
 
+        <!-- Campo Telefone -->
         <div class="form-group">
             <label for="telefone">Telefone</label>
             <input type="text" class="form-control" id="telefone" th:field="*{telefone}" placeholder="Digite o telefone de contato" required pattern="\d{10,11}" title="Telefone deve ter entre 10 e 11 dígitos numéricos">
         </div>
 
+        <!-- Campo Email -->
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Digite o email de contato" required>
         </div>
 
+        <!-- Campo Pessoa de Contato -->
         <div class="form-group">
             <label for="pessoaContato">Pessoa de Contato</label>
             <input type="text" class="form-control" id="pessoaContato" th:field="*{pessoaContato}" placeholder="Digite o nome da pessoa de contato" required pattern="[A-Za-z\s]+" title="O nome da pessoa de contato deve conter apenas letras">
         </div>
 
+        <!-- Campo Atividade Principal -->
         <div class="form-group">
             <label for="atividadePrincipal">Atividade Principal</label>
             <input type="text" class="form-control" id="atividadePrincipal" th:field="*{atividadePrincipal}" placeholder="Descreva a atividade principal da empresa" required>
         </div>
 
+        <!-- Campo URL da Empresa -->
         <div class="form-group">
             <label for="url">URL da Empresa</label>
             <input type="url" class="form-control" id="url" th:field="*{url}" placeholder="Digite a URL da empresa" required pattern="https?://.+" title="A URL deve começar com http:// ou https://">
         </div>
 
+        <!-- Upload de Documento de Endereço -->
         <div class="form-group">
             <label for="documentoEndereco">Documento de Comprovação de Endereço</label>
             <input type="file" class="form-control-file" id="documentoEndereco" name="documentoEnderecoFile">
         </div>
 
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <!-- Botão de ação (Cadastrar ou Atualizar) -->
+        <button type="submit" class="btn btn-primary" th:text="${empresa.id != null} ? 'Atualizar' : 'Cadastrar'"></button>
     </form>
 </div>
 </body>

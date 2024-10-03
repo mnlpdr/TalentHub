@@ -20,7 +20,38 @@ public class EmpresaService {
 
 
     public Empresa salvar(Empresa empresa) {
-        return empresaRepository.save(empresa);
+        // Verifica se estamos tentando editar (ID não nulo)
+        if (empresa.getId() != null) {
+            // Busca a empresa existente
+            Empresa empresaExistente = empresaRepository.findById(empresa.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada para o ID fornecido"));
+
+            // Verifica se o CNPJ já existe em outra empresa
+            Empresa empresaComMesmoCnpj = empresaRepository.findByCnpj(empresa.getCnpj());
+            if (empresaComMesmoCnpj != null && !empresaComMesmoCnpj.getId().equals(empresa.getId())) {
+                throw new IllegalArgumentException("O CNPJ já está em uso por outra empresa.");
+            }
+
+            // Atualiza os dados da empresa existente
+            empresaExistente.setNome(empresa.getNome());
+            empresaExistente.setCnpj(empresa.getCnpj());
+            empresaExistente.setEndereco(empresa.getEndereco());
+            empresaExistente.setTelefone(empresa.getTelefone());
+            empresaExistente.setEmail(empresa.getEmail());
+            empresaExistente.setAtividadePrincipal(empresa.getAtividadePrincipal());
+            empresaExistente.setPessoaContato(empresa.getPessoaContato());
+            empresaExistente.setUrl(empresa.getUrl());
+
+            // Se houver documento, atualiza
+            if (empresa.getDocumentoEndereco() != null) {
+                empresaExistente.setDocumentoEndereco(empresa.getDocumentoEndereco());
+            }
+
+            return empresaRepository.save(empresaExistente);  // Atualiza no banco
+        }
+
+        // Caso seja uma nova empresa (sem ID)
+        return empresaRepository.save(empresa);  // Insere nova empresa
     }
 
     public List<Empresa> listarTodos(){
