@@ -2,7 +2,6 @@ package br.edu.ifpb.pweb2.talenthub.security;
 
 import javax.sql.DataSource;
 
-import br.edu.ifpb.pweb2.talenthub.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,31 +18,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-
-
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
     @Autowired
     private DataSource dataSource;
+
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("talenthub/css/**", "talenthub/imagens/**").permitAll()
-                        .requestMatchers("/talenthub/alunos/**").hasAnyRole("ALUNO","COORDENADOR")
-                        .requestMatchers("talenthub/empresas/**").hasAnyRole("EMPRESA","COORDENADOR")
-                        .requestMatchers("talenthub/**").hasRole("COORDENADOR")
-                        .anyRequest().authenticated())
-                .formLogin((form)->form
+                        .requestMatchers("/css/**", "/imagens/**").permitAll()  // Permite acesso aos recursos estáticos
+                        .requestMatchers("/alunos/**").hasAnyRole("ALUNO", "COORDENADOR")  // Alunos podem acessar suas rotas
+                        .requestMatchers("/empresas/**").hasAnyRole("EMPRESA", "COORDENADOR")  // Empresas acessam /empresas/**
+                        .requestMatchers("/ofertas/**").hasAnyRole("EMPRESA", "COORDENADOR")  // Bloqueia /ofertas para alunos, mas permite para empresas e coordenadores
+                        .requestMatchers("/coordenador/**").hasRole("COORDENADOR")  // Coordenadores podem acessar todas as rotas de coordenador
+                        .anyRequest().authenticated())  // Requer autenticação para todas as outras rotas
+                .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/home",true)
+                        .defaultSuccessUrl("/home", true)
                         .permitAll())
-                .logout((logout) -> logout.logoutUrl("/auth/logout"));
-        return http.build();
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout=true"))
+                .csrf(csrf -> csrf.disable());  // Desativa CSRF
 
+        return http.build();
     }
 
     @Bean
@@ -69,6 +70,7 @@ public class SecurityConfig {
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
         if (!users.userExists(a1.getUsername())) {
             users.createUser(a1);
+            users.createUser(a2);
             users.createUser(emp1);
             users.createUser(emp2);
             users.createUser(coord1);
@@ -84,5 +86,3 @@ public class SecurityConfig {
         return provider;
     }
 }
-
-
