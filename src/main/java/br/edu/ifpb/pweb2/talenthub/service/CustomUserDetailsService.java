@@ -2,6 +2,8 @@ package br.edu.ifpb.pweb2.talenthub.service;
 
 import br.edu.ifpb.pweb2.talenthub.model.Usuario;
 import br.edu.ifpb.pweb2.talenthub.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,17 +23,22 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UsuarioRepository usuarioRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Busca o usuário no banco de dados
-        Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o nome: " + username));
+        Usuario usuario = usuarioRepository.findById(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        // Converte as permissões (roles) do usuário em uma coleção de `GrantedAuthority`
-        Collection<GrantedAuthority> authorities = usuario.getAuthorities().stream()
-                .map(auth -> new SimpleGrantedAuthority(auth.getAuthority()))
+        // Aqui ainda estamos dentro de uma transação, então as authorities serão
+        // carregadas corretamente.
+        List<GrantedAuthority> authorities = usuario.getAuthorities().stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))
                 .collect(Collectors.toList());
 
-        // Retorna o objeto `User` do Spring Security
-        return new User(usuario.getUsername(), usuario.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(
+                usuario.getUsername(),
+                usuario.getPassword(),
+                usuario.getEnabled(),
+                true, true, true,
+                authorities);
     }
 }

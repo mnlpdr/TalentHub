@@ -20,12 +20,18 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
+import br.edu.ifpb.pweb2.talenthub.service.CustomUserDetailsService;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -56,10 +62,6 @@ public class SecurityConfig {
             return http.build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -89,10 +91,15 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
+            DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+            authProvider.setUserDetailsService(userDetailsService);
+            authProvider.setPasswordEncoder(passwordEncoder());
+            return authProvider;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder(); // Criptografa as senhas
     }
 
     @Bean
