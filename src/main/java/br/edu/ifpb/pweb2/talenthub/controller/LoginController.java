@@ -10,4 +10,9 @@ public class LoginController {
     public String login() {
         return "auth/login";  // Nome do template Thymeleaf
     }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "auth/login"; // Nome do template Thymeleaf
+    }
 }

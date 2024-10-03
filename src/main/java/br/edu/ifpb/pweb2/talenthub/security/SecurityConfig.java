@@ -44,11 +44,14 @@ public class SecurityConfig {
                                             .defaultSuccessUrl("/home", true)
                                             .permitAll())
                             .logout(logout -> logout
-                                            .logoutUrl("/logout")
-                                            .logoutSuccessUrl("/login?logout=true"))
+                                            .logoutUrl("/logout") // Configura o endpoint de logout
+                                            .logoutSuccessUrl("/login?logout=true") // Para onde redirecionar após
+                                                                                    // logout
+                                            .invalidateHttpSession(true) // Invalida a sessão do usuário
+                                            .deleteCookies("JSESSIONID")) // Remove o cookie de sessão
                             .exceptionHandling(exceptionHandling -> exceptionHandling
-                                            .accessDeniedHandler(accessDeniedHandler()))
-                            .csrf(csrf -> csrf.disable());
+                                            .accessDeniedHandler(accessDeniedHandler()));
+                            
 
             return http.build();
     }
