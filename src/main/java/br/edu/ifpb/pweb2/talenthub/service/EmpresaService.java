@@ -57,7 +57,7 @@ public class EmpresaService {
             return empresaRepository.save(empresaExistente);
         }
 
-        // Cria um novo usuário para o login
+       /*  // Cria um novo usuário para o login
         Usuario novoUsuario = new Usuario();
         novoUsuario.setUsername(a.getUsername());
         novoUsuario.setPassword(aluno.getSenha()); // Senha já encriptada
@@ -69,7 +69,7 @@ public class EmpresaService {
         autoridade.setAuthority("ALUNO");
 
         novoUsuario.setAuthorities(List.of(autoridade));
-        usuarioRepository.save(novoUsuario);
+        usuarioRepository.save(novoUsuario); */
 
         return empresaRepository.save(empresa);
     }
@@ -94,6 +94,19 @@ public class EmpresaService {
         }
 
         return new ArrayList<>();
+    }
+
+    public void deletarEmpresas(List<Long> empresaIds) {
+        // Busca todas as empresas que existem no banco de dados com os IDs fornecidos
+        List<Empresa> empresasParaDeletar = empresaRepository.findAllById(empresaIds);
+
+        // Verifica se todas as empresas foram encontradas
+        if (empresasParaDeletar.size() != empresaIds.size()) {
+            throw new IllegalArgumentException("Uma ou mais empresas não foram encontradas.");
+        }
+
+        // Realiza a deleção em lote
+        empresaRepository.deleteAll(empresasParaDeletar);
     }
 
 

@@ -145,4 +145,13 @@ public class AlunoController {
         // Retorna a view de detalhamento do aluno
         return "aluno/detalhamentoAluno";
     }
+
+    @GetMapping("/detalhamento/{id}")
+    public String detalhamentoPorId(@PathVariable Long id, Model model) {
+        // Buscar o aluno usando o id
+        Aluno aluno = alunoService.buscarPorId(id);
+        model.addAttribute("aluno", aluno);
+        return "aluno/detalhamentoAluno"; 
+        
+    }
 }

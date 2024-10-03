@@ -43,8 +43,10 @@ public class SecurityConfig {
                                             .permitAll() // Permitir acesso às rotas de cadastro
                                             .requestMatchers("/alunos/**").hasAnyRole("ALUNO", "COORDENADOR")
                                             .requestMatchers("/empresas/**").hasAnyRole("EMPRESA", "COORDENADOR")
+                                            .requestMatchers("/empresas/deletar").hasRole("COORDENADOR")
                                             .requestMatchers("/ofertas/**").hasAnyRole("EMPRESA", "COORDENADOR")
                                             .requestMatchers("/coordenador/**").hasRole("COORDENADOR")
+                                            .requestMatchers("/coordenadores/**").hasRole("COORDENADOR")
                                             .anyRequest().authenticated())
                             .formLogin(form -> form
                                             .loginPage("/login")

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 
 import java.io.IOException;
 import java.util.List;
@@ -96,11 +97,11 @@ public class EmpresaController {
 
     }
 
-
-    @DeleteMapping("/{id}")
-    @ResponseBody
-    public void deletar(@PathVariable Long id){
-        empresaService.excluir(id);
+    @Secured("ROLE_COORDENADOR")
+    @PostMapping("/deletar")
+    public String deletarEmpresas(@RequestParam("empresaIds") List<Long> empresaIds) {
+        empresaService.deletarEmpresas(empresaIds);
+        return "redirect:/empresas";
     }
 
     @GetMapping("/cadastro")
