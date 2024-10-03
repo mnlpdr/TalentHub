@@ -2,6 +2,7 @@ package br.edu.ifpb.pweb2.talenthub.model;
 
 import java.util.List;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -22,7 +23,7 @@ public class Usuario {
     private String password;
     private Boolean enabled;
 
-    @OneToMany(mappedBy = "username")
+    @OneToMany(mappedBy = "username", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Autoridade> authorities;
 
