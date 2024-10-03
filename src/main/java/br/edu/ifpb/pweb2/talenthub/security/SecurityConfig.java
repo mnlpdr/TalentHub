@@ -32,8 +32,9 @@ public class SecurityConfig {
             http
                             .authorizeHttpRequests(auth -> auth
                                             .requestMatchers("/css/**", "/imagens/**").permitAll()
-                                            .requestMatchers("/login", "/error").permitAll() // Permite o acesso ao
-                                                                                             // login e à página de erro
+                                            .requestMatchers("/login", "/error", "/alunos/cadastro",
+                                                            "/empresas/cadastro")
+                                            .permitAll() // Permitir acesso às rotas de cadastro
                                             .requestMatchers("/alunos/**").hasAnyRole("ALUNO", "COORDENADOR")
                                             .requestMatchers("/empresas/**").hasAnyRole("EMPRESA", "COORDENADOR")
                                             .requestMatchers("/ofertas/**").hasAnyRole("EMPRESA", "COORDENADOR")
@@ -44,14 +45,13 @@ public class SecurityConfig {
                                             .defaultSuccessUrl("/home", true)
                                             .permitAll())
                             .logout(logout -> logout
-                                            .logoutUrl("/logout") // Configura o endpoint de logout
-                                            .logoutSuccessUrl("/login?logout=true") // Para onde redirecionar após
-                                                                                    // logout
-                                            .invalidateHttpSession(true) // Invalida a sessão do usuário
-                                            .deleteCookies("JSESSIONID")) // Remove o cookie de sessão
+                                            .logoutUrl("/logout")
+                                            .logoutSuccessUrl("/login?logout=true")
+                                            .invalidateHttpSession(true)
+                                            .deleteCookies("JSESSIONID"))
                             .exceptionHandling(exceptionHandling -> exceptionHandling
-                                            .accessDeniedHandler(accessDeniedHandler()));
-                            
+                                            .accessDeniedHandler(accessDeniedHandler()))
+                            .csrf(csrf -> csrf.disable());
 
             return http.build();
     }

@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/fragments/base :: headfiles('Autenticação', ~{::link})}">
-
     <link rel="stylesheet" th:href="@{/css/auth.css}">
-
 </head>
 <body>
-    <form  class="form-signin"  th:action="@{/login}" method="post">
-        <img alt="Logo do TalentHub" class="mb-4" th:src="@{/imagens/talent_hub_logo.png}">
+    <div class="centered">
+        <form class="form-signin" th:action="@{/login}" method="post">
+            <img alt="Logo do TalentHub" class="mb-4" th:src="@{/imagens/talent_hub_logo.png}" height="auto">
+            
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error}">
+                Login e/ou senha inválidos!
+            </div>
 
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error} ">Login e/ou senha inválidos!</div>
+            <label class="sr-only" for="username"></label>
+            <input autofocus class="form-control input-login" id="username" name="username" placeholder="Login" required type="text">
 
+            <label class="sr-only" for="password"></label>
+            <input class="form-control input-login" id="password" name="password" placeholder="Senha" required type="password">
+
+            <button type="submit" class="btn btn-primary btn-block submit-button">Login</button>
+        </form>
+
+        <!-- Botões de cadastro -->
+        <div class="mt-4">
+            <p class="autentique">Não tem uma conta?</p>
+            <a class="btn btn-secondary btn-block" th:href="@{/alunos/cadastro}">Cadastro de Aluno</a>
+            <a class="btn btn-secondary btn-block" th:href="@{/empresas/cadastro}">Cadastro de Empresa</a>
         </div>
-        
-        <label class="sr-only" for="username"></label>
-        <input autofocus class="form-control input-login" id="username" name="username" placeholder="Login" required type="text">
-
-        <label class="sr-only" for="password"></label>
-        <input class="form-control input-login" id="password" name="password" placeholder="Senha" required type="password">
-        
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-
+    </div>
 </body>
 </html>
