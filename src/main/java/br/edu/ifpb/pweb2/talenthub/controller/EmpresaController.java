@@ -27,7 +27,6 @@ public class EmpresaController {
 
     private static final Logger logger = LoggerFactory.getLogger(EmpresaController.class);
 
-
     @Autowired
     private EmpresaRepository empresaRepository;
 
@@ -58,7 +57,7 @@ public class EmpresaController {
         try {
 
             empresa.setId(id);
-            empresaService.salvar(empresa);
+            empresaService.atualizar(empresa);
         } catch (IllegalArgumentException e) {
             model.addAttribute("cnpjError", e.getMessage());
             return "empresa/cadastroEmpresa";
@@ -83,11 +82,7 @@ public class EmpresaController {
         return "empresa/listarEmpresa";
     }
 
-    @PostMapping
-    @ResponseBody
-    public Empresa criar(@RequestBody Empresa empresa){
-        return empresaService.salvar(empresa);
-    }
+
 
     @GetMapping("/{id}")
     public String buscarPorId(@PathVariable Long id, Model model){
@@ -127,7 +122,7 @@ public class EmpresaController {
             return "cadastroEmpresa";
         }
 
-        empresaService.salvar(empresa);
+        empresaService.cadastrar(empresa);
         return "redirect:/empresas";
     }
 
