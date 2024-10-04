@@ -107,7 +107,7 @@ public class AlunoController {
         }
 
         // Buscar o aluno logado pelo username
-        Aluno alunoLogado = alunoService.findByUserName(username);
+        Aluno alunoLogado = alunoService.findByUsername(username);
         if (alunoLogado == null) {
             // Se o aluno não for encontrado, redirecionar para uma página de erro ou login
             return "redirect:/login";
@@ -137,7 +137,7 @@ public class AlunoController {
         String username = authentication.getName();
         
         // Busca o aluno usando o nome de usuário
-        Aluno aluno = alunoService.findByUserName(username);
+        Aluno aluno = alunoService.findByUsername(username);
         
         // Adiciona o aluno no modelo para ser exibido na view
         model.addAttribute("aluno", aluno);

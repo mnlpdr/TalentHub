@@ -62,6 +62,10 @@ public class AlunoService {
         return alunoRepository.findById(id).orElse(null);
     }
 
+    public Aluno findByUsername(String username) {
+        return alunoRepository.findByUsername(username).orElse(null);
+    }
+
     public void deletar(Long id) {
         alunoRepository.deleteById(id);
     }

@@ -70,12 +70,7 @@ public class SecurityConfig {
         // Alguns usuários básicos, criados quando da 1a. execução da aplicaçao
         UserDetails a1 = User.withUsername("geraldo").password(passwordEncoder().encode("geraldo")).roles("ALUNO")
                 .build();
-        UserDetails a2 = User.withUsername("pedro").password(passwordEncoder().encode("pedro")).roles("ALUNO")
-                .build();
-        UserDetails emp1 = User.withUsername("ifood").password(passwordEncoder().encode("ifood")).roles("EMPRESA")
-                .build();
-        UserDetails emp2 = User.withUsername("embraer").password(passwordEncoder().encode("embraer")).roles("EMPRESA")
-                .build();
+   
         UserDetails coord1 = User.withUsername("coordenador1").password(passwordEncoder().encode("coordenador1"))
                 .roles("COORDENADOR").build();
 
@@ -83,9 +78,6 @@ public class SecurityConfig {
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
         if (!users.userExists(a1.getUsername())) {
             users.createUser(a1);
-            users.createUser(a2);
-            users.createUser(emp1);
-            users.createUser(emp2);
             users.createUser(coord1);
         }
         return users;

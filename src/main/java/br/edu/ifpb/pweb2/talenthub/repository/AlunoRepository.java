@@ -18,4 +18,6 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long> {
             "JOIN o.empresa e")
     List<CandidaturaDTO> listarCandidaturas();
 
+
+    Aluno findByUsername(String username);
 }
