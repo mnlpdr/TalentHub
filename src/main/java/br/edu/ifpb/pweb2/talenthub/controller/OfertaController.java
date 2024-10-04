@@ -97,7 +97,7 @@ public class OfertaController {
             return "oferta/criarOferta";
         }
         ofertaService.salvar(oferta);
-        return "redirect:/ofertas/listar";
+        return "redirect:/empresas";
         }
 
     @GetMapping("/filtrar")

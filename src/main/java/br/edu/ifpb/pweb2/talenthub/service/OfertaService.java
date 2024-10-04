@@ -1,8 +1,10 @@
 package br.edu.ifpb.pweb2.talenthub.service;
 
 import br.edu.ifpb.pweb2.talenthub.model.Aluno;
+import br.edu.ifpb.pweb2.talenthub.model.Empresa;
 import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.repository.AlunoRepository;
+import br.edu.ifpb.pweb2.talenthub.repository.EmpresaRepository;
 import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,15 @@ public class OfertaService {
     @Autowired
     private AlunoRepository alunoRepository;
 
+    @Autowired
+    private EmpresaRepository empresaRepository;
+
     public Oferta salvar(Oferta oferta) {
+
+        Empresa empresa = oferta.getEmpresa();
+        empresa.getOfertas().add(oferta);
+        empresaRepository.save(empresa);
+
         return ofertaRepository.save(oferta);
     }
 
@@ -60,6 +70,11 @@ public class OfertaService {
             aluno.getOfertasCandidaturas().remove(oferta);
             alunoRepository.save(aluno);
         }
+
+        Empresa empresa = oferta.getEmpresa();
+        empresa.getOfertas().remove(oferta);
+        empresaRepository.save(empresa);
+
         
         // Agora, exclua a oferta
         ofertaRepository.delete(oferta);

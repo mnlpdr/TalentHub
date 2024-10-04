@@ -119,6 +119,10 @@ public class EmpresaService {
         return new ArrayList<>();
     }
 
+    public Empresa findByCnpj(String username) {
+        return empresaRepository.findByCnpj(username);
+    }
+
     
 
 }

@@ -2,11 +2,6 @@ package br.edu.ifpb.pweb2.talenthub.model;
 
 import jakarta.persistence.*;
 import java.util.Set;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,7 +44,7 @@ public class Empresa {
     @Column(name = "documento_endereco")
     private byte[] documentoEndereco;
 
-    @OneToMany(mappedBy = "empresa")
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER)
     private Set<Oferta> ofertas;
 
     //FOI ESSE TRANSIENT QUE RESOLVEU MAIS DE 2 HORAS DE DOR DE CABEÇA!!!
