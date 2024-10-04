@@ -5,6 +5,7 @@ import br.edu.ifpb.pweb2.talenthub.model.Autoridade;
 import br.edu.ifpb.pweb2.talenthub.model.Oferta;
 import br.edu.ifpb.pweb2.talenthub.model.Usuario;
 import br.edu.ifpb.pweb2.talenthub.repository.AlunoRepository;
+import br.edu.ifpb.pweb2.talenthub.repository.AutoridadeRepository;
 import br.edu.ifpb.pweb2.talenthub.repository.OfertaRepository;
 import br.edu.ifpb.pweb2.talenthub.repository.UsuarioRepository;
 import br.edu.ifpb.pweb2.talenthub.utils.DTO.CandidaturaDTO;
@@ -27,10 +28,14 @@ public class AlunoService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private AutoridadeRepository autoridadeRepository;
+    
+    @Autowired
     private OfertaRepository ofertaRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     public Aluno salvar(Aluno aluno) {
         // Cria o Aluno e salva no banco
@@ -43,13 +48,20 @@ public class AlunoService {
         novoUsuario.setPassword(aluno.getSenha()); // Senha já encriptada
         novoUsuario.setEnabled(true);
 
+        // Salva o novo usuário
+        usuarioRepository.save(novoUsuario);
+
         // Defina o papel (ROLE) como "ALUNO"
         Autoridade autoridade = new Autoridade();
-        autoridade.setUsername(novoUsuario);
-        autoridade.setAuthority("ALUNO");
 
-        novoUsuario.setAuthorities(List.of(autoridade));
-        usuarioRepository.save(novoUsuario);
+        // Criar o ID embutido da autoridade (AuthorityId)
+        Autoridade.AuthorityId authorityId = new Autoridade.AuthorityId(novoUsuario.getUsername(), "ROLE_ALUNO");
+        autoridade.setId(authorityId); // Associa o ID
+        autoridade.setUsername(novoUsuario); // Associa ao novo usuário
+        autoridade.setAuthority("ROLE_ALUNO");
+
+        // Salva a autoridade
+        autoridadeRepository.save(autoridade);
 
         return novoAluno;
     }
